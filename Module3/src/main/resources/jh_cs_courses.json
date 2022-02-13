@@ -1,0 +1,185 @@
+{
+    "programName": "Computer Science",
+    "concentrations":
+    [
+        {
+            "name": "Bioinformatics",
+            "courses":
+            [
+                {
+                    "courseName": "Linked Data and the Semantic Web",
+                    "courseNumber": "605.643",
+                    "modeOfStudy":
+                    [
+                        "Online"
+                    ]
+                },
+                {
+                    "courseName": "Principles of Bioinformatics ",
+                    "courseNumber": "605.651",
+                    "modeOfStudy":
+                    [
+                        "Online"
+                    ]
+                },
+                {
+                    "courseName": "Biological Databases and Database Tools",
+                    "courseNumber": "605.652",
+                    "modeOfStudy":
+                    [
+                        "Online"
+                    ]
+                },
+                {
+                    "courseName": "Computational Genomics",
+                    "courseNumber": "605.653",
+                    "modeOfStudy":
+                    [
+                        "Online"
+                    ]
+                },
+                {
+                    "courseName": "Computational Drug Discovery",
+                    "courseNumber": "605.656",
+                    "modeOfStudy":
+                    [
+                        "Online"
+                    ]
+                },
+                {
+                    "courseName": "Statistics for Bioinformatics",
+                    "courseNumber": "605.657",
+                    "modeOfStudy":
+                    [
+                        "Online"
+                    ]
+                },
+                {
+                    "courseName": "Modeling and Simulation of Complex Systems",
+                    "courseNumber": "605.716",
+                    "modeOfStudy":
+                    [
+                        "Face to Face",
+                        "Virtual Live"
+                    ]
+                },
+                {
+                    "courseName": "Algorithms for Structural Bioinformatics",
+                    "courseNumber": "605.751",
+                    "modeOfStudy": "Online"
+                },
+                {
+                    "courseName": "Systems Biology",
+                    "courseNumber": "605.755",
+                    "modeOfStudy": "Online"
+                },
+                {
+                    "courseName": "Independent Project in Bioinformatics",
+                    "courseNumber": "605.759"
+                }
+            ]
+        },
+        {
+            "name": "Cyber Operations",
+            "courses":
+            [
+                {
+                    "courseName": "Cyber Physical Systems Security",
+                    "courseNumber": "695.615",
+                    "modeOfStudy":
+                    [
+                        "Online"
+                    ]
+                },
+                {
+                    "courseName": "Web Security",
+                    "courseNumber": "695.622",
+                    "modeOfStudy":
+                    [
+                        "Online"
+                    ]
+                },
+                {
+                    "courseName": "Introduction to Ethical Hacking",
+                    "courseNumber": "695.643",
+                    "modeOfStudy":
+                    [
+                        "Online"
+                    ]
+                },
+                {
+                    "courseName": "Survey of Cloud Computing Security",
+                    "courseNumber": "605.731",
+                    "modeOfStudy":
+                    [
+                        "Online"
+                    ]
+                },
+                {
+                    "courseName": "Information Assurance Analysis",
+                    "courseNumber": "695.741",
+                    "modeOfStudy":
+                    [
+                        "Online"
+                    ]
+                },
+                {
+                    "courseName": "Digital Forensics Technologies and Techniques",
+                    "courseNumber": "695.742",
+                    "modeOfStudy":
+                    [
+                        "Face to Face",
+                        "Online",
+                        "Virtual Live"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Human-computer Interaction and Visualization",
+            "courses":
+            [
+                {
+                    "courseName": "Crowdsourcing and Human Computation",
+                    "courseNumber": "605.634",
+                    "modeOfStudy":
+                    [
+                        "Virtual Live"
+                    ]
+                },
+                {
+                    "courseName": "Data Visualization",
+                    "courseNumber": "605.662",
+                    "modeOfStudy":
+                    [
+                        "Online"
+                    ]
+                },
+                {
+                    "courseName": "Computer Graphics",
+                    "courseNumber": "605.667",
+                    "modeOfStudy":
+                    [
+                        "Online"
+                    ]
+                },
+                {
+                    "courseName": "Applied Computer Graphics",
+                    "courseNumber": "605.767",
+                    "modeOfStudy":
+                    [
+                        "Face to Face"
+                    ]
+                },
+                {
+                    "courseName": "Principles of Human Computer Interaction",
+                    "courseNumber": "635.661",
+                    "modeOfStudy":
+                    [
+                        "Online"
+                    ]
+                }
+            ]
+        }
+    ]
+}
