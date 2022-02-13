@@ -3,6 +3,14 @@ package jh.hw;
 import java.util.List;
 
 public class Concentration {
+    @Override
+    public String toString() {
+        return "Concentration{" +
+                "name='" + name + '\'' +
+                ", courses=" + courses +
+                '}';
+    }
+
     public String name;
     public List<Course> courses;
 

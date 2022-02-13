@@ -66,12 +66,18 @@
                 {
                     "courseName": "Algorithms for Structural Bioinformatics",
                     "courseNumber": "605.751",
-                    "modeOfStudy": "Online"
+                    "modeOfStudy":
+                    [
+                        "Online"
+                    ]
                 },
                 {
                     "courseName": "Systems Biology",
                     "courseNumber": "605.755",
-                    "modeOfStudy": "Online"
+                    "modeOfStudy":
+                    [
+                        "Online"
+                    ]
                 },
                 {
                     "courseName": "Independent Project in Bioinformatics",
