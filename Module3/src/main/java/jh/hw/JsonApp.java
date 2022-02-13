@@ -2,6 +2,7 @@ package jh.hw;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,5 +28,11 @@ public class JsonApp {
         StringWriter csProgramObjToJson = new StringWriter();
         objectMapper.writeValue(csProgramObjToJson, csProgram);
         LOGGER.info("Program object to JSON\n{}", csProgramObjToJson);
+
+        /* Serialize into XML. */
+        XmlMapper xmlMapper = new XmlMapper();
+        xmlMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
+        String csProgramObjToXML = xmlMapper.writeValueAsString(csProgram);
+        LOGGER.info("Program object to XML\n{}", csProgramObjToXML);
     }
 }
