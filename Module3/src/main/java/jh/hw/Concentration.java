@@ -3,14 +3,6 @@ package jh.hw;
 import java.util.List;
 
 public class Concentration {
-    @Override
-    public String toString() {
-        return "Concentration{" +
-                "name='" + name + '\'' +
-                ", courses=" + courses +
-                '}';
-    }
-
     public String name;
     public List<Course> courses;
 
@@ -29,4 +21,13 @@ public class Concentration {
     public void setCourses(List<Course> courses) {
         this.courses = courses;
     }
+
+    @Override
+    public String toString() {
+        return "Concentration{" +
+                "name='" + name + '\'' +
+                ", courses=" + courses +
+                '}';
+    }
+
 }

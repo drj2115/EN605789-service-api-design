@@ -3,15 +3,6 @@ package jh.hw;
 import java.util.List;
 
 public class Course {
-    @Override
-    public String toString() {
-        return "Course{" +
-                "courseName='" + courseName + '\'' +
-                ", courseNumber='" + courseNumber + '\'' +
-                ", modeOfStudy=" + modeOfStudy +
-                '}';
-    }
-
     public String courseName;
     public String courseNumber;
     public List<String> modeOfStudy;
@@ -38,5 +29,14 @@ public class Course {
 
     public void setModeOfStudy(List<String> modeOfStudy) {
         this.modeOfStudy = modeOfStudy;
+    }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "courseName='" + courseName + '\'' +
+                ", courseNumber='" + courseNumber + '\'' +
+                ", modeOfStudy=" + modeOfStudy +
+                '}';
     }
 }

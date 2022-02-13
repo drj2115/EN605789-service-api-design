@@ -1,38 +1,29 @@
 package jh.hw;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class JsonApp {
+    private static final Logger LOGGER = LoggerFactory.getLogger(JsonApp.class);
+
     public static void main(String[] args) throws Exception {
-        //to read data from JSON file to String *************************************
 
+        /* Convert JSON to Object. */
         byte[] jsonData = Files.readAllBytes(Paths.get("Module3/jh_cs_courses.json"));
-
-        //create ObjectMapper instance **********************************************
-
         ObjectMapper objectMapper = new ObjectMapper();
-
-        //convert json string to object *********************************************
-
         Program csProgram = objectMapper.readValue(jsonData, Program.class);
+        LOGGER.info("Program JSON to object\n{}", csProgram);
 
-        System.out.println("Program Object\n"+csProgram);
-
-        //convert Object to json string *********************************************
-
-//        Student stud1 = createStudent();
-//
-//        //configure Object mapper for pretty print **********************************
-//
-//        objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-//
-//        //writing to console, can write to any output stream such as file ***********
-//
-//        StringWriter stringstud = new StringWriter();
-//        objectMapper.writeValue(stringstud, stud1);
-//        System.out.println("Student JSON is\n"+stringstud);
+        /* Convert Object to JSON. */
+        objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
+        StringWriter csProgramObjToJson = new StringWriter();
+        objectMapper.writeValue(csProgramObjToJson, csProgram);
+        LOGGER.info("Program object to JSON\n{}", csProgramObjToJson);
     }
 }
