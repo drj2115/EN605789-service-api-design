@@ -41,11 +41,20 @@
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <groupId>org.apache.tomcat.maven</groupId>
-                    <artifactId>tomcat7-maven-plugin</artifactId>
-                    <version>2.2</version>
+                    <groupId>org.codehaus.cargo</groupId>
+                    <artifactId>cargo-maven2-plugin</artifactId>
+                    <version>1.8.3</version>
                     <configuration>
-                        <port>8080</port>
+                        <container>
+                            <containerId>tomcat9x</containerId>
+                            <type>embedded</type>
+                        </container>
+                        <configuration>
+                            <properties>
+                                <cargo.servlet.port>8080</cargo.servlet.port>
+                                <cargo.logging>high</cargo.logging>
+                            </properties>
+                        </configuration>
                     </configuration>
                 </plugin>
                 <plugin>

@@ -1,4 +1,4 @@
-package org.rest;
+package jh.hw;
  
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -8,8 +8,6 @@ import javax.ws.rs.HeaderParam  ;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;  
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status; 
-import java.net.*;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -73,10 +71,10 @@ public class TestService {
   public List<Student> getAllStudents() throws Exception{      
         List<Student> students = new ArrayList<>();
         Student s = new Student();
-        s.setId(123);
+        s.setId("123");
         s.setFirstName("Leonid");
         s.setLastName("Felikson");
-        s.setAddress("Leonid's address");
+//        s.setAddress("Leonid's address");
         students.add(s);
         
         System.out.println("getAllStudents(): found "+students.size()+" student(s)");
@@ -92,7 +90,7 @@ public class TestService {
 
         System.out.println("First Name = " + stud.getFirstName());
         System.out.println("Last Name  = " + stud.getLastName());
-        System.out.println("Address    = " + stud.getAddress());
+//        System.out.println("Address    = " + stud.getAddress());
         
         return "ok";
   }
@@ -140,7 +138,11 @@ public class TestService {
   @Produces(MediaType.APPLICATION_JSON)
   public Response getPojoResponse() {
 
-    Student student = new Student (987, "Leonid", "Felikson", "Leonid's address");
+//    Student student = new Student (987, "Leonid", "Felikson", "Leonid's address");
+Student student = new Student();
+student.setId("987");
+student.setLastName("steve");
+student.setFirstName("win");
        System.out.println("++++++++++++++ " +  student.getFirstName() + "   " + student.getLastName());
     return Response
       .status(Response.Status.OK)
@@ -155,7 +157,11 @@ public class TestService {
   @Produces(MediaType.APPLICATION_XML)
   public Response getPojoResponseXML() {
 
-    Student student = new Student(123, "Leonid_XML", "Felikson_XML", "address_XML");
+//    Student student = new Student(123, "Leonid_XML", "Felikson_XML", "address_XML");
+        Student student = new Student();
+      student.setId("987");
+      student.setLastName("steve");
+      student.setFirstName("windsadfasd");
 
        System.out.println("++++ " + student.getFirstName() +  "  " + student.getFirstName());
 
