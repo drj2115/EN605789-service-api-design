@@ -21,7 +21,7 @@ public class JaxRsClient {
         try {
             testStudentService(client);
             testCourseService(client);
-
+            System.out.println("Test success - no errors!");
         } catch (IncorrectResponseException e) {
             System.err.println(e.getMessage());
         } catch (Exception e) {
