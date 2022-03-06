@@ -1,2 +1,2 @@
 to deploy:
-mvn install tomcat7:run
+mvn install cargo:run
