@@ -34,6 +34,10 @@ public class StudentService {
     @POST
     @Consumes (MediaType.APPLICATION_JSON)
     public Response createStudent(final Student student) {
+        String violations = ModelValidator.getModelViolations(student);
+        if (violations != null) {
+            return Response.status(Response.Status.BAD_REQUEST).entity(violations).build();
+        }
         if (STUDENT_MAP.containsKey(student.getId())) {
             return Response.notModified().build();
         }
@@ -44,6 +48,10 @@ public class StudentService {
     @PUT
     @Consumes (MediaType.APPLICATION_JSON)
     public Response updateStudent(final Student student) {
+        String violations = ModelValidator.getModelViolations(student);
+        if (violations != null) {
+            return Response.status(Response.Status.BAD_REQUEST).entity(violations).build();
+        }
         if (!STUDENT_MAP.containsKey(student.getId())) {
             return Response.noContent().build();
         }

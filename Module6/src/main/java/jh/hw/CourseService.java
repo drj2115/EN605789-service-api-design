@@ -34,6 +34,10 @@ public class CourseService {
     @POST
     @Consumes (MediaType.APPLICATION_JSON)
     public Response createCourse(final Course course) {
+        String violations = ModelValidator.getModelViolations(course);
+        if (violations != null) {
+            return Response.status(Response.Status.BAD_REQUEST).entity(violations).build();
+        }
         if (COURSE_MAP.containsKey(course.getCourseNumber())) {
             return Response.notModified().build();
         }
@@ -44,6 +48,10 @@ public class CourseService {
     @PUT
     @Consumes (MediaType.APPLICATION_JSON)
     public Response updateCourse(final Course course) {
+        String violations = ModelValidator.getModelViolations(course);
+        if (violations != null) {
+            return Response.status(Response.Status.BAD_REQUEST).entity(violations).build();
+        }
         if (!COURSE_MAP.containsKey(course.getCourseNumber())) {
             return Response.noContent().build();
         }

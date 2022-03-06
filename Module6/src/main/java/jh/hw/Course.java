@@ -25,4 +25,12 @@ public class Course {
     public void setCourseTitle(String courseTitle) {
         this.courseTitle = courseTitle;
     }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "courseNumber='" + courseNumber + '\'' +
+                ", courseTitle='" + courseTitle + '\'' +
+                '}';
+    }
 }
