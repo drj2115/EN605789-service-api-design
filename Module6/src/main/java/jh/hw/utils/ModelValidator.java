@@ -1,4 +1,4 @@
-package jh.hw;
+package jh.hw.utils;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
