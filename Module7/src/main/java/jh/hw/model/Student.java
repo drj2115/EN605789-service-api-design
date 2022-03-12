@@ -69,6 +69,8 @@ public class Student {
     }
 
     public void setDateOfBirth(String dateOfBirth) {
+
+        /* Parse to force proper format validation. */
         DATE_TIME_FORMATTER.parse(dateOfBirth);
         this.dateOfBirth = dateOfBirth;
     }
