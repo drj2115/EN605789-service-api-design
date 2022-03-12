@@ -1,21 +1,25 @@
 package jh.hw.service;
 
 import jh.hw.model.Student;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.validation.Valid;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-@RequestMapping(value = "/student")
+@RequestMapping(value = "/student", produces = "application/json")
 public class StudentService {
     static final Map<Integer, Student> STUDENT_MAP = new HashMap<>();
 
     static {
-        Student student = new Student(1, "Dallas", "Jones", "2020-09-30", "steve@gmail.com");
+        Student student = new Student(1, "Dallas", "Jones", "2020-01-03","steve@gmail.com");
         STUDENT_MAP.put(student.getStudentId(), student);
     }
 
@@ -24,27 +28,17 @@ public class StudentService {
         return ResponseEntity.ok(STUDENT_MAP.get(id));
     }
 
-/*
-    @GET
-    @Path("/id/{id}/")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getStudent(@PathParam("id") final String id) {
-        Student student = STUDENT_MAP.get(id);
-        if (student == null) {
-            return Response.noContent().build();
-        }
-        return Response.ok().entity(student).build();
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    public ResponseEntity<Collection<Student>> getAllStudents() {
+        return ResponseEntity.ok(STUDENT_MAP.values());
     }
 
-    @GET
-    @Path("all")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllStudents() {
-        if (STUDENT_MAP.isEmpty()) {
-            return Response.noContent().build();
-        }
-        return Response.ok().entity(STUDENT_MAP.values()).build();
+    @RequestMapping(method = RequestMethod.POST, consumes = "application/json")
+    public ResponseEntity createStudent(@RequestBody @Valid Student student) {
+        STUDENT_MAP.put(student.getStudentId(), student);
+        return ResponseEntity.ok().build();
     }
+/*
 
     @POST
     @Consumes (MediaType.APPLICATION_JSON)

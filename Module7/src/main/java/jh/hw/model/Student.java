@@ -5,9 +5,13 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class Student {
+
+    private static final String DATE_TIME_FORMAT = "yyyy-MM-dd";
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(DATE_TIME_FORMAT);
 
     @NotNull
     private Integer studentId;
@@ -18,8 +22,8 @@ public class Student {
     @NotBlank
     private String lastName;
 
-    @NotBlank
-    @DateTimeFormat
+    @NotNull
+    @DateTimeFormat(pattern = DATE_TIME_FORMAT)
     private String dateOfBirth;
 
     @Email
@@ -29,11 +33,11 @@ public class Student {
     }
 
     public Student(Integer studentId, String firstName, String lastName, String dateOfBirth, String email) {
-        this.studentId = studentId;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.dateOfBirth = dateOfBirth;
-        this.email = email;
+        setStudentId(studentId);
+        setFirstName(firstName);
+        setLastName(lastName);
+        setDateOfBirth(dateOfBirth);
+        setEmail(email);
     }
 
     public Integer getStudentId() {
@@ -65,6 +69,7 @@ public class Student {
     }
 
     public void setDateOfBirth(String dateOfBirth) {
+        DATE_TIME_FORMATTER.parse(dateOfBirth);
         this.dateOfBirth = dateOfBirth;
     }
 
@@ -79,11 +84,11 @@ public class Student {
     @Override
     public String toString() {
         return "Student{" +
-                "studentId=" + studentId +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", dateOfBirth='" + dateOfBirth + '\'' +
-                ", email='" + email + '\'' +
+                "studentId=" + getStudentId() +
+                ", firstName='" + getFirstName() + '\'' +
+                ", lastName='" + getLastName() + '\'' +
+                ", dateOfBirth='" + getDateOfBirth() + '\'' +
+                ", email='" + getEmail() + '\'' +
                 '}';
     }
 
