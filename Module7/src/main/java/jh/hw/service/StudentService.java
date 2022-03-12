@@ -18,11 +18,6 @@ import java.util.Map;
 public class StudentService {
     static final Map<Integer, Student> STUDENT_MAP = new HashMap<>();
 
-    static {
-        Student student = new Student(1, "Dallas", "Jones", "2020-01-03","steve@gmail.com");
-        STUDENT_MAP.put(student.getStudentId(), student);
-    }
-
     @RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
     public ResponseEntity<Student> getStudentById(@PathVariable(value = "id") Integer id) {
         return ResponseEntity.ok(STUDENT_MAP.get(id));
