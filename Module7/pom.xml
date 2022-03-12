@@ -73,23 +73,23 @@
         <finalName>Module7</finalName>
         <pluginManagement>
             <plugins>
-<!--                <plugin>-->
-<!--                    <groupId>org.codehaus.cargo</groupId>-->
-<!--                    <artifactId>cargo-maven2-plugin</artifactId>-->
-<!--                    <version>1.8.3</version>-->
-<!--                    <configuration>-->
-<!--                        <container>-->
-<!--                            <containerId>tomcat9x</containerId>-->
-<!--                            <type>embedded</type>-->
-<!--                        </container>-->
-<!--                        <configuration>-->
-<!--                            <properties>-->
-<!--                                <cargo.servlet.port>8080</cargo.servlet.port>-->
-<!--                                <cargo.logging>high</cargo.logging>-->
-<!--                            </properties>-->
-<!--                        </configuration>-->
-<!--                    </configuration>-->
-<!--                </plugin>-->
+                <plugin>
+                    <groupId>org.codehaus.cargo</groupId>
+                    <artifactId>cargo-maven2-plugin</artifactId>
+                    <version>1.8.3</version>
+                    <configuration>
+                        <container>
+                            <containerId>tomcat9x</containerId>
+                            <type>embedded</type>
+                        </container>
+                        <configuration>
+                            <properties>
+                                <cargo.servlet.port>8080</cargo.servlet.port>
+                                <cargo.logging>high</cargo.logging>
+                            </properties>
+                        </configuration>
+                    </configuration>
+                </plugin>
                 <plugin>
                     <artifactId>maven-clean-plugin</artifactId>
                     <version>3.1.0</version>
