@@ -1,1 +1,1 @@
-web: cd Module7 & mvn cargo:run
+web: java -jar Module7/target/Module7.war
