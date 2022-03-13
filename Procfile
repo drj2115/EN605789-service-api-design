@@ -1,1 +1,0 @@
-web: java -jar Module7/target/Module7.war
