@@ -1,7 +1,10 @@
 package jh.hw.service;
 
+import jh.hw.model.JsonResponse;
 import jh.hw.model.Student;
+import jh.hw.utils.ModelValidator;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-@RequestMapping(value = "/student", produces = "application/json")
+@RequestMapping(value = "/student", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 public class StudentService {
     static final Map<Integer, Student> STUDENT_MAP = new HashMap<>();
 
@@ -28,29 +31,37 @@ public class StudentService {
         return ResponseEntity.ok(STUDENT_MAP.values());
     }
 
-    @RequestMapping(method = RequestMethod.POST, consumes = "application/json")
-    public ResponseEntity createStudent(@RequestBody Student student) {
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<JsonResponse> createStudent(@RequestBody Student student) {
+        String violations = ModelValidator.getModelViolations(student);
+        if (violations != null) {
+            return JsonResponse.buildResponse(HttpStatus.BAD_REQUEST, violations);
+        }
         if (STUDENT_MAP.containsKey(student.getStudentId())) {
-            return ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();
+            return JsonResponse.buildResponse(HttpStatus.NOT_MODIFIED);
         }
         STUDENT_MAP.put(student.getStudentId(), student);
-        return ResponseEntity.ok().build();
+        return JsonResponse.buildResponse(HttpStatus.CREATED);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, consumes = "application/json")
-    public ResponseEntity updateStudent(@RequestBody Student student) {
+    @RequestMapping(method = RequestMethod.PUT)
+    public ResponseEntity<JsonResponse> updateStudent(@RequestBody Student student) {
+        String violations = ModelValidator.getModelViolations(student);
+        if (violations != null) {
+            return JsonResponse.buildResponse(HttpStatus.BAD_REQUEST, violations);
+        }
         if (!STUDENT_MAP.containsKey(student.getStudentId())) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            return JsonResponse.buildResponse(HttpStatus.NO_CONTENT);
         }
         STUDENT_MAP.put(student.getStudentId(), student);
-        return ResponseEntity.ok().build();
+        return JsonResponse.buildResponse(HttpStatus.OK);
     }
 
     @RequestMapping(value = "/id/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity deleteStudent(@PathVariable(value = "id") Integer id) {
+    public ResponseEntity<JsonResponse> deleteStudent(@PathVariable(value = "id") Integer id) {
         if (STUDENT_MAP.remove(id) == null) {
-            return ResponseEntity.noContent().build();
+            return JsonResponse.buildResponse(HttpStatus.NOT_FOUND);
         }
-        return ResponseEntity.ok().build();
+        return JsonResponse.buildResponse(HttpStatus.OK);
     }
 }
