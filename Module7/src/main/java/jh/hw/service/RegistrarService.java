@@ -19,7 +19,7 @@ import java.util.Set;
 @Controller
 @RequestMapping(value = "/registrar", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 public class RegistrarService {
-    private static final Map<Course, Set<Student>> COURSE_STUDENT_MAP = new HashMap<>();
+    private static final Map<Integer, Set<Student>> COURSE_STUDENT_MAP = new HashMap<>();
     private static final int COURSE_MAX_STUDENTS = 15;
 
     @RequestMapping(value = "/course/{courseNumber}/student/{studentId}", method = RequestMethod.POST)
@@ -30,25 +30,28 @@ public class RegistrarService {
         if (student == null || course == null) {
             return JsonResponse.buildResponse(HttpStatus.BAD_REQUEST);
         }
-        Set<Student> studentsInCourse = COURSE_STUDENT_MAP.getOrDefault(course, new HashSet<>());
+        Set<Student> studentsInCourse = COURSE_STUDENT_MAP.getOrDefault(courseNumber, new HashSet<>());
         if (studentsInCourse.contains(student) || studentsInCourse.size() >= COURSE_MAX_STUDENTS) {
             return JsonResponse.buildResponse(HttpStatus.NOT_MODIFIED);
         }
         studentsInCourse.add(student);
-        COURSE_STUDENT_MAP.put(course, studentsInCourse);
+        COURSE_STUDENT_MAP.put(courseNumber, studentsInCourse);
         return JsonResponse.buildResponse(HttpStatus.OK);
     }
 
     @RequestMapping(value = "/course/{courseNumber}", method = RequestMethod.GET)
     public ResponseEntity<?> getRegisteredStudentsByCourseNumber(@PathVariable("courseNumber") final Integer courseNumber) {
-        Course course = CourseService.COURSE_MAP.get(courseNumber);
-        if (course == null) {
+
+        if (!CourseService.COURSE_MAP.containsKey(courseNumber)) {
+            COURSE_STUDENT_MAP.remove(courseNumber);
             return JsonResponse.buildResponse(HttpStatus.BAD_REQUEST);
         }
-        Set<Student> studentsInCourse = COURSE_STUDENT_MAP.get(course);
+        Set<Student> studentsInCourse = COURSE_STUDENT_MAP.get(courseNumber);
         if (studentsInCourse == null || studentsInCourse.isEmpty()) {
             return JsonResponse.buildResponse(HttpStatus.NO_CONTENT);
         }
+        studentsInCourse.removeIf(student -> !StudentService.STUDENT_MAP.containsKey(student.getStudentId()));
+
         return ResponseEntity.ok(studentsInCourse);
     }
 
@@ -60,7 +63,7 @@ public class RegistrarService {
         if (student == null || course == null) {
             return JsonResponse.buildResponse(HttpStatus.BAD_REQUEST);
         }
-        Set<Student> studentsInCourse = COURSE_STUDENT_MAP.get(course);
+        Set<Student> studentsInCourse = COURSE_STUDENT_MAP.get(courseNumber);
         if (studentsInCourse == null || !studentsInCourse.contains(student)) {
             return JsonResponse.buildResponse(HttpStatus.NOT_MODIFIED);
         }
