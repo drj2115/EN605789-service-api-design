@@ -38,7 +38,7 @@ public class CourseService {
             return JsonResponse.buildResponse(HttpStatus.BAD_REQUEST, violations);
         }
         if (COURSE_MAP.containsKey(course.getCourseNumber())) {
-            return JsonResponse.buildResponse(HttpStatus.BAD_REQUEST);
+            return JsonResponse.buildResponse(HttpStatus.NOT_MODIFIED);
         }
         COURSE_MAP.put(course.getCourseNumber(), course);
         return JsonResponse.buildResponse(HttpStatus.CREATED);
