@@ -1,37 +1,52 @@
 package jh.hw.service;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jh.hw.model.JsonResponse;
 import jh.hw.model.Student;
 import jh.hw.utils.ModelValidator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-@Controller
-@RequestMapping(value = "/student", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+@RestController
+@RequestMapping(value = "student", produces = MediaType.APPLICATION_JSON_VALUE)
+@Tag(name = "Students", description = "The Student API")
 public class StudentService {
     static final Map<Integer, Student> STUDENT_MAP = new HashMap<>();
 
-    @RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
+    @GetMapping("{id}")
+    @Operation(summary = "Get a student")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "successful request")
+    })
     public ResponseEntity<Student> getStudentById(@PathVariable(value = "id") Integer id) {
         return ResponseEntity.ok(STUDENT_MAP.get(id));
     }
 
-    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    @GetMapping
+    @Operation(summary = "Get all students")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "successful request")
+    })
     public ResponseEntity<Collection<Student>> getAllStudents() {
         return ResponseEntity.ok(STUDENT_MAP.values());
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "Create a student")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "successfully created a student"),
+            @ApiResponse(responseCode = "400", description = "bad request - improper student entity"),
+            @ApiResponse(responseCode = "304", description = "not modified - the student already exists")
+    })
     public ResponseEntity<JsonResponse> createStudent(@RequestBody Student student) {
         String violations = ModelValidator.getModelViolations(student);
         if (violations != null) {
@@ -44,10 +59,16 @@ public class StudentService {
         return JsonResponse.buildResponse(HttpStatus.CREATED);
     }
 
-    @RequestMapping(method = RequestMethod.PUT)
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "Modify an existing student")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "successfully modified a student"),
+            @ApiResponse(responseCode = "400", description = "bad request - improper student entity"),
+            @ApiResponse(responseCode = "204", description = "no content - the student does not exist")
+    })
     public ResponseEntity<JsonResponse> updateStudent(@RequestBody Student student) {
         String violations = ModelValidator.getModelViolations(student);
-        if (violations != null) {
+        if (violations != null){
             return JsonResponse.buildResponse(HttpStatus.BAD_REQUEST, violations);
         }
         if (!STUDENT_MAP.containsKey(student.getStudentId())) {
@@ -57,7 +78,12 @@ public class StudentService {
         return JsonResponse.buildResponse(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/id/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping("{id}")
+    @Operation(summary = "Delete a student")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "successfully deleted the student"),
+            @ApiResponse(responseCode = "204", description = "no content - the student does not exist")
+    })
     public ResponseEntity<JsonResponse> deleteStudent(@PathVariable(value = "id") Integer id) {
         if (STUDENT_MAP.remove(id) == null) {
             return JsonResponse.buildResponse(HttpStatus.NOT_FOUND);

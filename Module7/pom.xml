@@ -3,9 +3,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>EN605789-service-api-design</artifactId>
-        <groupId>jh.hw</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.6.4</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -16,6 +16,7 @@
 
     <properties>
         <org.springframework-version>4.3.0.RELEASE</org.springframework-version>
+        <mainClass>jh.hw.AppInitializer</mainClass>
     </properties>
 
     <dependencies>
@@ -24,17 +25,6 @@
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-            <version>${org.springframework-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>3.0.1</version>
-            <scope>provided</scope>
         </dependency>
 
         <!-- Required in JSPs for manipulating model objects. -->
@@ -67,58 +57,39 @@
             <artifactId>jackson-databind</artifactId>
             <version>2.13.1</version>
         </dependency>
+
+        <!-- Open API -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>1.6.6</version>
+        </dependency>
+
+        <!-- Spring -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>2.6.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <version>2.6.4</version>
+        </dependency>
     </dependencies>
 
     <build>
         <finalName>Module7</finalName>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.codehaus.cargo</groupId>
-                    <artifactId>cargo-maven2-plugin</artifactId>
-                    <version>1.8.3</version>
-                    <configuration>
-                        <container>
-                            <containerId>tomcat9x</containerId>
-                            <type>embedded</type>
-                        </container>
-                        <configuration>
-                            <properties>
-                                <cargo.servlet.port>8080</cargo.servlet.port>
-                                <cargo.logging>high</cargo.logging>
-                            </properties>
-                        </configuration>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-clean-plugin</artifactId>
-                    <version>3.1.0</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-resources-plugin</artifactId>
-                    <version>3.0.2</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.8.0</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.22.1</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-war-plugin</artifactId>
-                    <version>3.2.2</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-install-plugin</artifactId>
-                    <version>2.5.2</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-deploy-plugin</artifactId>
-                    <version>2.8.2</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.6.4</version>
+                <configuration>
+                    <mainClass>${mainClass}</mainClass>
+                    <jmxPort>8080</jmxPort>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 </project>

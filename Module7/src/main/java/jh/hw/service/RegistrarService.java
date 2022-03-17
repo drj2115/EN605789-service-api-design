@@ -1,28 +1,36 @@
 package jh.hw.service;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jh.hw.model.Course;
 import jh.hw.model.JsonResponse;
 import jh.hw.model.Student;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-@Controller
-@RequestMapping(value = "/registrar", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+@RestController
+@RequestMapping(value = "registrar", produces = MediaType.APPLICATION_JSON_VALUE)
+@Tag(name = "Registrar", description = "The Registrar API")
 public class RegistrarService {
     private static final Map<Integer, Set<Student>> COURSE_STUDENT_MAP = new HashMap<>();
     private static final int COURSE_MAX_STUDENTS = 15;
 
-    @RequestMapping(value = "/course/{courseNumber}/student/{studentId}", method = RequestMethod.POST)
+    @PostMapping("{courseNumber}/{studentId}")
+    @Operation(summary = "Register a student to a course")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "successful request"),
+            @ApiResponse(responseCode = "304", description = "not modified - the student is either already in the course or the course is full"),
+            @ApiResponse(responseCode = "400", description = "bad request - invalid course number or student id")
+    })
     public ResponseEntity<JsonResponse> registerStudent(@PathVariable("courseNumber") Integer courseNumber,
                                                         @PathVariable("studentId") Integer studentId) {
         Student student = StudentService.STUDENT_MAP.get(studentId);
@@ -39,9 +47,14 @@ public class RegistrarService {
         return JsonResponse.buildResponse(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/course/{courseNumber}", method = RequestMethod.GET)
+    @GetMapping(value = "{courseNumber}")
+    @Operation(summary = "Get the list of registered students by course")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "successful request"),
+            @ApiResponse(responseCode = "204", description = "no content - the course has not students"),
+            @ApiResponse(responseCode = "400", description = "bad request - invalid course number")
+    })
     public ResponseEntity<?> getRegisteredStudentsByCourseNumber(@PathVariable("courseNumber") final Integer courseNumber) {
-
         if (!CourseService.COURSE_MAP.containsKey(courseNumber)) {
             COURSE_STUDENT_MAP.remove(courseNumber);
             return JsonResponse.buildResponse(HttpStatus.BAD_REQUEST);
@@ -55,9 +68,15 @@ public class RegistrarService {
         return ResponseEntity.ok(studentsInCourse);
     }
 
-    @RequestMapping(value = "/course/{courseNumber}/student/{studentId}", method = RequestMethod.DELETE)
-    public ResponseEntity<JsonResponse> getRegisteredStudentsByCourseNumber(@PathVariable("courseNumber") final Integer courseNumber,
-                                                              @PathVariable("studentId") final Integer studentId) {
+    @DeleteMapping(value = "{courseNumber}/{studentId}")
+    @Operation(summary = "Delete a student from a course")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "successful request"),
+            @ApiResponse(responseCode = "304", description = "not modified - the student is not in the course"),
+            @ApiResponse(responseCode = "400", description = "bad request - invalid course number or student id")
+    })
+    public ResponseEntity<JsonResponse> deleteStudentFromCourse(@PathVariable("courseNumber") final Integer courseNumber,
+                                                                @PathVariable("studentId") final Integer studentId) {
         Student student = StudentService.STUDENT_MAP.get(studentId);
         Course course = CourseService.COURSE_MAP.get(courseNumber);
         if (student == null || course == null) {

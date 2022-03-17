@@ -25,7 +25,7 @@ public final class ModelValidator {
             return null;
         }
 
-        return "Validation failed for [" +  clazz.getSimpleName() + "]:" + DELIMITER +
+        return "Validation failed for [" + clazz.getSimpleName() + "]:" + DELIMITER +
                 violations.stream()
                         .map(violation -> String.format("field: [%s] violation: [%s]", violation.getPropertyPath().toString(),
                                 violation.getMessage()))

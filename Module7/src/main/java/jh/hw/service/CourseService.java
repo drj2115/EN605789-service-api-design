@@ -1,37 +1,52 @@
 package jh.hw.service;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jh.hw.model.Course;
 import jh.hw.model.JsonResponse;
 import jh.hw.utils.ModelValidator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-@Controller
-@RequestMapping(value = "/course", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+@RestController
+@RequestMapping(value = "course", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+@Tag(name = "Courses", description = "The Course API")
 public class CourseService {
     static final Map<Integer, Course> COURSE_MAP = new HashMap<>();
 
-    @RequestMapping(value = "/number/{number}", method = RequestMethod.GET)
-    public ResponseEntity<Course> getStudentById(@PathVariable(value = "number") Integer number) {
+    @GetMapping(value = "{number}")
+    @Operation(summary = "Get course by course number")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "successful request")
+    })
+    public ResponseEntity<Course> getCourseByNumber(@PathVariable(value = "number") Integer number) {
         return ResponseEntity.ok(COURSE_MAP.get(number));
     }
 
-    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    @GetMapping
+    @Operation(summary = "Get all courses")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "successful request")
+    })
     public ResponseEntity<Collection<Course>> getAllCourses() {
         return ResponseEntity.ok(COURSE_MAP.values());
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping
+    @Operation(summary = "Create a course")
+    @ApiResponses({
+        @ApiResponse(responseCode = "201", description = "successfully created a course"),
+        @ApiResponse(responseCode = "400", description = "bad request - improper course entity"),
+        @ApiResponse(responseCode = "304", description = "not modified - the course already exists")
+    })
     public ResponseEntity<JsonResponse> createCourse(@RequestBody Course course) {
         String violations = ModelValidator.getModelViolations(course);
         if (violations != null) {
@@ -44,8 +59,14 @@ public class CourseService {
         return JsonResponse.buildResponse(HttpStatus.CREATED);
     }
 
-    @RequestMapping(method = RequestMethod.PUT)
-    public ResponseEntity<JsonResponse> updateStudent(@RequestBody Course course) {
+    @PutMapping
+    @Operation(summary = "Modify an existing course")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "successfully modified a course"),
+        @ApiResponse(responseCode = "400", description = "bad request - improper course entity"),
+        @ApiResponse(responseCode = "204", description = "no content - the course does not exist")
+    })
+    public ResponseEntity<JsonResponse> updateCourse(@RequestBody Course course) {
         String violations = ModelValidator.getModelViolations(course);
         if (violations != null) {
             return JsonResponse.buildResponse(HttpStatus.BAD_REQUEST, violations);
@@ -57,8 +78,13 @@ public class CourseService {
         return JsonResponse.buildResponse(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/number/{number}", method = RequestMethod.DELETE)
-    public ResponseEntity<JsonResponse> deleteStudent(@PathVariable(value = "number") Integer number) {
+    @DeleteMapping(value = "{number}")
+    @Operation(summary = "Delete a course")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "successfully deleted the course"),
+            @ApiResponse(responseCode = "204", description = "no content - the course does not exist")
+    })
+    public ResponseEntity<JsonResponse> deleteCourse(@PathVariable(value = "number") Integer number) {
         if (COURSE_MAP.remove(number) == null) {
             return JsonResponse.buildResponse(HttpStatus.NO_CONTENT);
         }
