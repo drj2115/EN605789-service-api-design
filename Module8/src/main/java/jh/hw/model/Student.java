@@ -1,10 +1,8 @@
 package jh.hw.model;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
@@ -16,17 +14,17 @@ public class Student {
     @NotNull
     private Integer studentId;
 
-    @NotBlank
     private String firstName;
 
     @NotBlank
     private String lastName;
 
     @NotNull
-    @DateTimeFormat(pattern = DATE_TIME_FORMAT)
+    @Pattern(regexp = "[0-9]{4}-[0-9]{2}-[0-9]{2}")
     private String dateOfBirth;
 
-    @Email
+    @NotBlank
+    @Pattern(regexp = "[A-Za-z0-9]+@[A-Za-z0-9]+\\.[A-Za-z0-9]+", message = "Required email format - username@example.org")
     private String email;
 
     public Student() {
@@ -69,8 +67,6 @@ public class Student {
     }
 
     public void setDateOfBirth(String dateOfBirth) {
-
-        /* Parse to force proper format validation. */
         DATE_TIME_FORMATTER.parse(dateOfBirth);
         this.dateOfBirth = dateOfBirth;
     }

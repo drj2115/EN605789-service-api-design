@@ -6,12 +6,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jh.hw.model.Course;
 import jh.hw.model.JsonResponse;
-import jh.hw.utils.ModelValidator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,11 +47,7 @@ public class CourseService {
         @ApiResponse(responseCode = "400", description = "bad request - improper course entity"),
         @ApiResponse(responseCode = "304", description = "not modified - the course already exists")
     })
-    public ResponseEntity<JsonResponse> createCourse(@RequestBody Course course) {
-        String violations = ModelValidator.getModelViolations(course);
-        if (violations != null) {
-            return JsonResponse.buildResponse(HttpStatus.BAD_REQUEST, violations);
-        }
+    public ResponseEntity<JsonResponse> createCourse(@RequestBody @Valid Course course) {
         if (COURSE_MAP.containsKey(course.getCourseNumber())) {
             return JsonResponse.buildResponse(HttpStatus.NOT_MODIFIED);
         }
@@ -66,11 +62,7 @@ public class CourseService {
         @ApiResponse(responseCode = "400", description = "bad request - improper course entity"),
         @ApiResponse(responseCode = "204", description = "no content - the course does not exist")
     })
-    public ResponseEntity<JsonResponse> updateCourse(@RequestBody Course course) {
-        String violations = ModelValidator.getModelViolations(course);
-        if (violations != null) {
-            return JsonResponse.buildResponse(HttpStatus.BAD_REQUEST, violations);
-        }
+    public ResponseEntity<JsonResponse> updateCourse(@RequestBody @Valid Course course) {
         if (!COURSE_MAP.containsKey(course.getCourseNumber())) {
             return JsonResponse.buildResponse(HttpStatus.NO_CONTENT);
         }
@@ -81,8 +73,8 @@ public class CourseService {
     @DeleteMapping(value = "{number}")
     @Operation(summary = "Delete a course")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "successfully deleted the course"),
-            @ApiResponse(responseCode = "204", description = "no content - the course does not exist")
+        @ApiResponse(responseCode = "200", description = "successfully deleted the course"),
+        @ApiResponse(responseCode = "204", description = "no content - the course does not exist")
     })
     public ResponseEntity<JsonResponse> deleteCourse(@PathVariable(value = "number") Integer number) {
         if (COURSE_MAP.remove(number) == null) {

@@ -27,9 +27,9 @@ public class RegistrarService {
     @PostMapping("{courseNumber}/{studentId}")
     @Operation(summary = "Register a student to a course")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "successful request"),
-            @ApiResponse(responseCode = "304", description = "not modified - the student is either already in the course or the course is full"),
-            @ApiResponse(responseCode = "400", description = "bad request - invalid course number or student id")
+        @ApiResponse(responseCode = "200", description = "successful request"),
+        @ApiResponse(responseCode = "304", description = "not modified - the student is either already in the course or the course is full"),
+        @ApiResponse(responseCode = "400", description = "bad request - invalid course number or student id")
     })
     public ResponseEntity<JsonResponse> registerStudent(@PathVariable("courseNumber") Integer courseNumber,
                                                         @PathVariable("studentId") Integer studentId) {
@@ -50,9 +50,9 @@ public class RegistrarService {
     @GetMapping(value = "{courseNumber}")
     @Operation(summary = "Get the list of registered students by course")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "successful request"),
-            @ApiResponse(responseCode = "204", description = "no content - the course has not students"),
-            @ApiResponse(responseCode = "400", description = "bad request - invalid course number")
+        @ApiResponse(responseCode = "200", description = "successful request"),
+        @ApiResponse(responseCode = "204", description = "no content - the course has not students"),
+        @ApiResponse(responseCode = "400", description = "bad request - invalid course number")
     })
     public ResponseEntity<?> getRegisteredStudentsByCourseNumber(@PathVariable("courseNumber") final Integer courseNumber) {
         if (!CourseService.COURSE_MAP.containsKey(courseNumber)) {
@@ -71,9 +71,9 @@ public class RegistrarService {
     @DeleteMapping(value = "{courseNumber}/{studentId}")
     @Operation(summary = "Delete a student from a course")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "successful request"),
-            @ApiResponse(responseCode = "304", description = "not modified - the student is not in the course"),
-            @ApiResponse(responseCode = "400", description = "bad request - invalid course number or student id")
+        @ApiResponse(responseCode = "200", description = "successful request"),
+        @ApiResponse(responseCode = "304", description = "not modified - the student is not in the course"),
+        @ApiResponse(responseCode = "400", description = "bad request - invalid course number or student id")
     })
     public ResponseEntity<JsonResponse> deleteStudentFromCourse(@PathVariable("courseNumber") final Integer courseNumber,
                                                                 @PathVariable("studentId") final Integer studentId) {
