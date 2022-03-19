@@ -16,8 +16,8 @@ public class Course {
     }
 
     public Course(Integer courseNumber, String courseTitle) {
-        this.courseNumber = courseNumber;
-        this.courseTitle = courseTitle;
+        setCourseNumber(courseNumber);
+        setCourseTitle(courseTitle);
     }
 
     public Integer getCourseNumber() {
@@ -39,8 +39,8 @@ public class Course {
     @Override
     public String toString() {
         return "Course{" +
-                "courseNumber=" + courseNumber +
-                ", courseTitle='" + courseTitle + '\'' +
+                "courseNumber=" + getCourseNumber() +
+                ", courseTitle='" + getCourseTitle() + '\'' +
                 '}';
     }
 

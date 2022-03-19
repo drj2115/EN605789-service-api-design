@@ -11,8 +11,8 @@ public class JsonResponse {
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(DATE_TIME_FORMAT);
 
     private String status;
-    private String message;
     private String time;
+    private String message;
 
     public static ResponseEntity<JsonResponse> buildResponse(HttpStatus httpStatus) {
         return buildResponse(httpStatus, httpStatus.getReasonPhrase());

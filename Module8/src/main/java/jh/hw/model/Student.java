@@ -1,15 +1,16 @@
 package jh.hw.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class Student {
 
     private static final String DATE_TIME_FORMAT = "yyyy-MM-dd";
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(DATE_TIME_FORMAT);
 
     @NotNull
     private Integer studentId;
@@ -20,17 +21,17 @@ public class Student {
     private String lastName;
 
     @NotNull
-    @Pattern(regexp = "[0-9]{4}-[0-9]{2}-[0-9]{2}")
-    private String dateOfBirth;
+    @DateTimeFormat(pattern = DATE_TIME_FORMAT)
+    private LocalDate dateOfBirth;
 
     @NotBlank
-    @Pattern(regexp = "[A-Za-z0-9]+@[A-Za-z0-9]+\\.[A-Za-z0-9]+", message = "Required email format - username@example.org")
+    @Pattern(regexp = "[A-Za-z0-9]+@[A-Za-z0-9]+\\.[A-Za-z0-9]+")
     private String email;
 
     public Student() {
     }
 
-    public Student(Integer studentId, String firstName, String lastName, String dateOfBirth, String email) {
+    public Student(Integer studentId, String firstName, String lastName, LocalDate dateOfBirth, String email) {
         setStudentId(studentId);
         setFirstName(firstName);
         setLastName(lastName);
@@ -62,12 +63,11 @@ public class Student {
         this.lastName = lastName;
     }
 
-    public String getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(String dateOfBirth) {
-        DATE_TIME_FORMATTER.parse(dateOfBirth);
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
