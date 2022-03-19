@@ -57,7 +57,7 @@ public class RegistrarService {
     public ResponseEntity<?> getRegisteredStudentsByCourseNumber(@PathVariable("courseNumber") final Integer courseNumber) {
         if (!CourseService.COURSE_MAP.containsKey(courseNumber)) {
             COURSE_STUDENT_MAP.remove(courseNumber);
-            return JsonResponse.buildResponse(HttpStatus.BAD_REQUEST);
+            return JsonResponse.buildResponse(HttpStatus.BAD_REQUEST, "Invalid course");
         }
         Set<Student> studentsInCourse = COURSE_STUDENT_MAP.get(courseNumber);
         if (studentsInCourse == null || studentsInCourse.isEmpty()) {

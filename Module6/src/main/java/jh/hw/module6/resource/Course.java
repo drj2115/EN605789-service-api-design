@@ -1,4 +1,4 @@
-package jh.hw.resource;
+package jh.hw.module6.resource;
 
 import javax.validation.constraints.NotBlank;
 import java.util.Objects;

@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping(value = "course", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "course", produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "Courses", description = "The Course API")
 public class CourseService {
     static final Map<Integer, Course> COURSE_MAP = new HashMap<>();

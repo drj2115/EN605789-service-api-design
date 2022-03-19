@@ -1,9 +1,9 @@
-package jh.hw.client;
+package jh.hw.module6.client;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jh.hw.resource.Course;
-import jh.hw.resource.Student;
+import jh.hw.module6.resource.Course;
+import jh.hw.module6.resource.Student;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;

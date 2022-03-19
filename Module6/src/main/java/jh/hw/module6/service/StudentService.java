@@ -1,7 +1,7 @@
-package jh.hw.service;
+package jh.hw.module6.service;
 
-import jh.hw.utils.ModelValidator;
-import jh.hw.resource.Student;
+import jh.hw.module6.utils.ModelValidator;
+import jh.hw.module6.resource.Student;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
