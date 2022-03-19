@@ -1,12 +1,12 @@
-package jh.hw.service;
+package jh.hw.module7.service;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jh.hw.model.Course;
-import jh.hw.model.JsonResponse;
-import jh.hw.model.Student;
+import jh.hw.module7.model.Course;
+import jh.hw.module7.model.JsonResponse;
+import jh.hw.module7.model.Student;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

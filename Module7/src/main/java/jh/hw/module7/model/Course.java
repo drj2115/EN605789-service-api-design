@@ -1,4 +1,4 @@
-package jh.hw.model;
+package jh.hw.module7.model;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

@@ -1,4 +1,4 @@
-package jh.hw.model;
+package jh.hw.module7.model;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
