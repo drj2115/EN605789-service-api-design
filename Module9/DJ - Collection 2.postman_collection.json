@@ -1,0 +1,3051 @@
+{
+	"info": {
+		"_postman_id": "6005b462-c976-459c-8329-01df1d5ac0b9",
+		"name": "DJ - Collection 2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Students",
+			"item": [
+				{
+					"name": "Get all students",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Add a student\r",
+									"addStudent = (id, firstName, lastName, dob, email) => {\r",
+									"    return new Promise((resolve, reject) => {\r",
+									"        pm.sendRequest(\r",
+									"            {\r",
+									"                url: pm.collectionVariables.get('studentUrl'),\r",
+									"                method: 'POST',\r",
+									"                header: {\r",
+									"                    'Content-Type': 'application/json'\r",
+									"                },\r",
+									"                body: {\r",
+									"                    mode: 'raw',\r",
+									"                    raw: {\r",
+									"                        'studentId': id,\r",
+									"                        'firstName': firstName,\r",
+									"                        'lastName': lastName,\r",
+									"                        'dateOfBirth': dob,\r",
+									"                        'email': email\r",
+									"                    }\r",
+									"                }\r",
+									"            },\r",
+									"            function (err, response) {\r",
+									"                if (err) {\r",
+									"                    console.log('ERROR - ', err);\r",
+									"                    reject();\r",
+									"                } else {\r",
+									"                    resolve();\r",
+									"                }\r",
+									"            }\r",
+									"        );\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"Promise.all(addStudent(0, 'Steve', 'Winwood', '1948-05-12', 'higherlove@hotmail.com'));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Expected Response Status', () => {\r",
+									"    pm.response.to.be.ok;\r",
+									"});\r",
+									"\r",
+									"pm.test('Expected Response Body', () => {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.length).is.to.equal(1);\r",
+									"    var jsonStudent = jsonData[0];\r",
+									"    pm.expect(jsonStudent.studentId).is.to.equal(0);\r",
+									"    pm.expect(jsonStudent.firstName).is.to.equal('Steve');\r",
+									"    pm.expect(jsonStudent.lastName).is.to.equal('Winwood');\r",
+									"    pm.expect(jsonStudent.dateOfBirth).is.to.equal('1948-05-12');\r",
+									"    pm.expect(jsonStudent.email).is.to.equal('higherlove@hotmail.com');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{studentUrl}}",
+							"host": [
+								"{{studentUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modify an existing student",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Add a student\r",
+									"addStudent = (id, firstName, lastName, dob, email) => {\r",
+									"    return new Promise((resolve, reject) => {\r",
+									"        pm.sendRequest(\r",
+									"            {\r",
+									"                url: pm.collectionVariables.get('studentUrl'),\r",
+									"                method: 'POST',\r",
+									"                header: {\r",
+									"                    'Content-Type': 'application/json'\r",
+									"                },\r",
+									"                body: {\r",
+									"                    mode: 'raw',\r",
+									"                    raw: {\r",
+									"                        'studentId': id,\r",
+									"                        'firstName': firstName,\r",
+									"                        'lastName': lastName,\r",
+									"                        'dateOfBirth': dob,\r",
+									"                        'email': email\r",
+									"                    }\r",
+									"                }\r",
+									"            },\r",
+									"            function (err, response) {\r",
+									"                if (err) {\r",
+									"                    console.log('ERROR - ', err);\r",
+									"                    reject();\r",
+									"                } else {\r",
+									"                    resolve();\r",
+									"                }\r",
+									"            }\r",
+									"        );\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"Promise.all(addStudent(0, 'Steve', 'Winwood', '1948-05-12', 'higherlove@hotmail.com'));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Expected Response Status', () => {\r",
+									"    pm.response.to.be.ok;\r",
+									"});\r",
+									"\r",
+									"pm.test('Expected Response Body', () => {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).is.to.equal('OK');\r",
+									"    pm.expect(jsonData.time).is.not.empty;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"studentId\": 0,\r\n  \"firstName\": \"Lynyrd\",\r\n  \"lastName\": \"Skynyrd\",\r\n  \"dateOfBirth\": \"1970-01-01\",\r\n  \"email\": \"sweethome@labama\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{studentUrl}}",
+							"host": [
+								"{{studentUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modify an nonexistent student",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Add a student\r",
+									"addStudent = (id, firstName, lastName, dob, email) => {\r",
+									"    return new Promise((resolve, reject) => {\r",
+									"        pm.sendRequest(\r",
+									"            {\r",
+									"                url: pm.collectionVariables.get('studentUrl'),\r",
+									"                method: 'POST',\r",
+									"                header: {\r",
+									"                    'Content-Type': 'application/json'\r",
+									"                },\r",
+									"                body: {\r",
+									"                    mode: 'raw',\r",
+									"                    raw: {\r",
+									"                        'studentId': id,\r",
+									"                        'firstName': firstName,\r",
+									"                        'lastName': lastName,\r",
+									"                        'dateOfBirth': dob,\r",
+									"                        'email': email\r",
+									"                    }\r",
+									"                }\r",
+									"            },\r",
+									"            function (err, response) {\r",
+									"                if (err) {\r",
+									"                    console.log('ERROR - ', err);\r",
+									"                    reject();\r",
+									"                } else {\r",
+									"                    resolve();\r",
+									"                }\r",
+									"            }\r",
+									"        );\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"Promise.all(addStudent(0, 'Steve', 'Winwood', '1948-05-12', 'higherlove@hotmail.com'));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Expected Response Status', () => {\r",
+									"    pm.expect(pm.response.code).is.equal(204);\r",
+									"});\r",
+									"\r",
+									"pm.test('Expected Response Body', () => {\r",
+									"    pm.expect(pm.response.body).is.undefined;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"studentId\": 12345,\r\n  \"firstName\": \"Lynyrd\",\r\n  \"lastName\": \"Skynyrd\",\r\n  \"dateOfBirth\": \"1970-01-01\",\r\n  \"email\": \"a@b\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{studentUrl}}",
+							"host": [
+								"{{studentUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modify an invalid student",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Add a student\r",
+									"addStudent = (id, firstName, lastName, dob, email) => {\r",
+									"    return new Promise((resolve, reject) => {\r",
+									"        pm.sendRequest(\r",
+									"            {\r",
+									"                url: pm.collectionVariables.get('studentUrl'),\r",
+									"                method: 'POST',\r",
+									"                header: {\r",
+									"                    'Content-Type': 'application/json'\r",
+									"                },\r",
+									"                body: {\r",
+									"                    mode: 'raw',\r",
+									"                    raw: {\r",
+									"                        'studentId': id,\r",
+									"                        'firstName': firstName,\r",
+									"                        'lastName': lastName,\r",
+									"                        'dateOfBirth': dob,\r",
+									"                        'email': email\r",
+									"                    }\r",
+									"                }\r",
+									"            },\r",
+									"            function (err, response) {\r",
+									"                if (err) {\r",
+									"                    console.log('ERROR - ', err);\r",
+									"                    reject();\r",
+									"                } else {\r",
+									"                    resolve();\r",
+									"                }\r",
+									"            }\r",
+									"        );\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"Promise.all(addStudent(0, 'Steve', 'Winwood', '1948-05-12', 'higherlove@hotmail.com'));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Expected Response Status', () => {\r",
+									"    pm.expect(pm.response.code).is.equal(400);\r",
+									"});\r",
+									"\r",
+									"pm.test('Expected Response Body', () => {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).is.to.equal('Validation failed for [Student]:\\n\\tfield: [email] violation: [must be a well-formed email address]');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"studentId\": 0,\r\n  \"firstName\": \"Lynyrd\",\r\n  \"lastName\": \"Skynyrd\",\r\n  \"dateOfBirth\": \"1970-01-01\",\r\n  \"email\": \"this is not an email\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{studentUrl}}",
+							"host": [
+								"{{studentUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a valid student",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Expected Response Status', () => {\r",
+									"    pm.expect(pm.response.code).is.equal(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"studentId\": 1,\r\n  \"firstName\": \"Steve\",\r\n  \"lastName\": \"Winwood\",\r\n  \"dateOfBirth\": \"1945-05-12\",\r\n  \"email\": \"higherlove@hotmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{studentUrl}}",
+							"host": [
+								"{{studentUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create an invalid student",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Expected Response Status', () => {\r",
+									"    pm.expect(pm.response.code).is.equal(400);\r",
+									"});\r",
+									"\r",
+									"pm.test('Expected Response Body', () => {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).is.to.equal('Validation failed for [Student]:\\n\\tfield: [studentId] violation: [must not be null]');\r",
+									"    pm.expect(jsonData.time).is.not.empty;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"blah\": 1,\r\n  \"firstName\": \"Steve\",\r\n  \"lastName\": \"Winwood\",\r\n  \"dateOfBirth\": \"1945-05-12\",\r\n  \"email\": \"higherlove@hotmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{studentUrl}}",
+							"host": [
+								"{{studentUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a duplicate student",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Add a student\r",
+									"addStudent = (id, firstName, lastName, dob, email) => {\r",
+									"    return new Promise((resolve, reject) => {\r",
+									"        pm.sendRequest(\r",
+									"            {\r",
+									"                url: pm.collectionVariables.get('studentUrl'),\r",
+									"                method: 'POST',\r",
+									"                header: {\r",
+									"                    'Content-Type': 'application/json'\r",
+									"                },\r",
+									"                body: {\r",
+									"                    mode: 'raw',\r",
+									"                    raw: {\r",
+									"                        'studentId': id,\r",
+									"                        'firstName': firstName,\r",
+									"                        'lastName': lastName,\r",
+									"                        'dateOfBirth': dob,\r",
+									"                        'email': email\r",
+									"                    }\r",
+									"                }\r",
+									"            },\r",
+									"            function (err, response) {\r",
+									"                if (err) {\r",
+									"                    console.log('ERROR - ', err);\r",
+									"                    reject();\r",
+									"                } else {\r",
+									"                    resolve();\r",
+									"                }\r",
+									"            }\r",
+									"        );\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"Promise.all(addStudent(0, 'Steve', 'Winwood', '1948-05-12', 'higherlove@hotmail.com'));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Expected Response Status', () => {\r",
+									"    pm.expect(pm.response.code).is.equal(304);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"studentId\": 0,\r\n  \"firstName\": \"Steve\",\r\n  \"lastName\": \"Winwood\",\r\n  \"dateOfBirth\": \"1945-05-12\",\r\n  \"email\": \"higherlove@hotmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{studentUrl}}",
+							"host": [
+								"{{studentUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a student by valid id",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set('studentId', 0);\r",
+									"\r",
+									"// Add a student\r",
+									"addStudent = (id, firstName, lastName, dob, email) => {\r",
+									"    return new Promise((resolve, reject) => {\r",
+									"        pm.sendRequest(\r",
+									"            {\r",
+									"                url: pm.collectionVariables.get('studentUrl'),\r",
+									"                method: 'POST',\r",
+									"                header: {\r",
+									"                    'Content-Type': 'application/json'\r",
+									"                },\r",
+									"                body: {\r",
+									"                    mode: 'raw',\r",
+									"                    raw: {\r",
+									"                        'studentId': id,\r",
+									"                        'firstName': firstName,\r",
+									"                        'lastName': lastName,\r",
+									"                        'dateOfBirth': dob,\r",
+									"                        'email': email\r",
+									"                    }\r",
+									"                }\r",
+									"            },\r",
+									"            function (err, response) {\r",
+									"                if (err) {\r",
+									"                    console.log('ERROR - ', err);\r",
+									"                    reject();\r",
+									"                } else {\r",
+									"                    resolve();\r",
+									"                }\r",
+									"            }\r",
+									"        );\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"Promise.all(addStudent(0, 'Steve', 'Winwood', '1948-05-12', 'higherlove@hotmail.com'));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Expected Response Status', () => {\r",
+									"    pm.response.to.be.ok;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{studentUrl}}/{{studentId}}",
+							"host": [
+								"{{studentUrl}}"
+							],
+							"path": [
+								"{{studentId}}"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a student by invalid id",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set('studentId', 12345);\r",
+									"\r",
+									"// Add a student\r",
+									"addStudent = (id, firstName, lastName, dob, email) => {\r",
+									"    return new Promise((resolve, reject) => {\r",
+									"        pm.sendRequest(\r",
+									"            {\r",
+									"                url: pm.collectionVariables.get('studentUrl'),\r",
+									"                method: 'POST',\r",
+									"                header: {\r",
+									"                    'Content-Type': 'application/json'\r",
+									"                },\r",
+									"                body: {\r",
+									"                    mode: 'raw',\r",
+									"                    raw: {\r",
+									"                        'studentId': id,\r",
+									"                        'firstName': firstName,\r",
+									"                        'lastName': lastName,\r",
+									"                        'dateOfBirth': dob,\r",
+									"                        'email': email\r",
+									"                    }\r",
+									"                }\r",
+									"            },\r",
+									"            function (err, response) {\r",
+									"                if (err) {\r",
+									"                    console.log('ERROR - ', err);\r",
+									"                    reject();\r",
+									"                } else {\r",
+									"                    resolve();\r",
+									"                }\r",
+									"            }\r",
+									"        );\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"Promise.all(addStudent(0, 'Steve', 'Winwood', '1948-05-12', 'higherlove@hotmail.com'));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Expected Response Status', () => {\r",
+									"    pm.response.to.be.ok;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{studentUrl}}/{{studentId}}",
+							"host": [
+								"{{studentUrl}}"
+							],
+							"path": [
+								"{{studentId}}"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a student by valid id",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set('studentId', 0);\r",
+									"\r",
+									"// Add a student\r",
+									"addStudent = (id, firstName, lastName, dob, email) => {\r",
+									"    return new Promise((resolve, reject) => {\r",
+									"        pm.sendRequest(\r",
+									"            {\r",
+									"                url: pm.collectionVariables.get('studentUrl'),\r",
+									"                method: 'POST',\r",
+									"                header: {\r",
+									"                    'Content-Type': 'application/json'\r",
+									"                },\r",
+									"                body: {\r",
+									"                    mode: 'raw',\r",
+									"                    raw: {\r",
+									"                        'studentId': id,\r",
+									"                        'firstName': firstName,\r",
+									"                        'lastName': lastName,\r",
+									"                        'dateOfBirth': dob,\r",
+									"                        'email': email\r",
+									"                    }\r",
+									"                }\r",
+									"            },\r",
+									"            function (err, response) {\r",
+									"                if (err) {\r",
+									"                    console.log('ERROR - ', err);\r",
+									"                    reject();\r",
+									"                } else {\r",
+									"                    resolve();\r",
+									"                }\r",
+									"            }\r",
+									"        );\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"Promise.all(addStudent(0, 'Steve', 'Winwood', '1948-05-12', 'higherlove@hotmail.com'));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Expected Response Status', () => {\r",
+									"    pm.expect(pm.response.code).is.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('Expected Response Body', () => {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).is.to.equal('OK');\r",
+									"    pm.expect(jsonData.time).is.not.empty;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{studentUrl}}/{{studentId}}",
+							"host": [
+								"{{studentUrl}}"
+							],
+							"path": [
+								"{{studentId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a student by invalid id",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set('studentId', 12345);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Expected Response Status', () => {\r",
+									"    pm.expect(pm.response.code).is.equal(404);\r",
+									"});\r",
+									"\r",
+									"pm.test('Expected Response Body', () => {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).is.to.equal('Not Found');\r",
+									"    pm.expect(jsonData.time).is.not.empty;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{studentUrl}}/{{studentId}}",
+							"host": [
+								"{{studentUrl}}"
+							],
+							"path": [
+								"{{studentId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Courses",
+			"item": [
+				{
+					"name": "Get all courses",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Add a course\r",
+									"addCourse = (id, name) => {\r",
+									"    return new Promise((resolve, reject) => {\r",
+									"        pm.sendRequest(\r",
+									"            {\r",
+									"                url: pm.collectionVariables.get('courseUrl'),\r",
+									"                method: 'POST',\r",
+									"                header: {\r",
+									"                    'Content-Type': 'application/json'\r",
+									"                },\r",
+									"                body: {\r",
+									"                    mode: 'raw',\r",
+									"                    raw: {\r",
+									"                        'courseNumber': id,\r",
+									"                        'courseTitle': name\r",
+									"                    }\r",
+									"                }\r",
+									"            },\r",
+									"            function (err, response) {\r",
+									"                if (err) {\r",
+									"                    console.log('ERROR - ', err);\r",
+									"                    reject();\r",
+									"                } else {\r",
+									"                    resolve();\r",
+									"                }\r",
+									"            }\r",
+									"        );\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"Promise.all(addCourse(0, 'Higher Love - The Essential Steve Winwood'));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Expected Response Status', () => {\r",
+									"    pm.response.to.be.ok;\r",
+									"});\r",
+									"\r",
+									"pm.test('Expected Response Body', () => {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.length).is.to.equal(1);\r",
+									"    var jsonCourse = jsonData[0];\r",
+									"    pm.expect(jsonCourse.courseNumber).is.to.equal(0);\r",
+									"    pm.expect(jsonCourse.courseTitle).is.to.equal('Higher Love - The Essential Steve Winwood');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{courseUrl}}",
+							"host": [
+								"{{courseUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modify an existing course",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Add a course\r",
+									"addCourse = (id, name) => {\r",
+									"    return new Promise((resolve, reject) => {\r",
+									"        pm.sendRequest(\r",
+									"            {\r",
+									"                url: pm.collectionVariables.get('courseUrl'),\r",
+									"                method: 'POST',\r",
+									"                header: {\r",
+									"                    'Content-Type': 'application/json'\r",
+									"                },\r",
+									"                body: {\r",
+									"                    mode: 'raw',\r",
+									"                    raw: {\r",
+									"                        'courseNumber': id,\r",
+									"                        'courseTitle': name\r",
+									"                    }\r",
+									"                }\r",
+									"            },\r",
+									"            function (err, response) {\r",
+									"                if (err) {\r",
+									"                    console.log('ERROR - ', err);\r",
+									"                    reject();\r",
+									"                } else {\r",
+									"                    resolve();\r",
+									"                }\r",
+									"            }\r",
+									"        );\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"Promise.all(addCourse(0, 'Higher Love - The Essential Steve Winwood'));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Expected Response Status', () => {\r",
+									"    pm.response.to.be.ok;\r",
+									"});\r",
+									"\r",
+									"pm.test('Expected Response Body', () => {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).is.to.equal('OK');\r",
+									"    pm.expect(jsonData.time).is.not.empty;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"courseNumber\": 0,\r\n  \"courseTitle\": \"The Essential Lynyrd Skynyrd\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{courseUrl}}",
+							"host": [
+								"{{courseUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modify a nonexistent course",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Add a course\r",
+									"addCourse = (id, name) => {\r",
+									"    return new Promise((resolve, reject) => {\r",
+									"        pm.sendRequest(\r",
+									"            {\r",
+									"                url: pm.collectionVariables.get('courseUrl'),\r",
+									"                method: 'POST',\r",
+									"                header: {\r",
+									"                    'Content-Type': 'application/json'\r",
+									"                },\r",
+									"                body: {\r",
+									"                    mode: 'raw',\r",
+									"                    raw: {\r",
+									"                        'courseNumber': id,\r",
+									"                        'courseTitle': name\r",
+									"                    }\r",
+									"                }\r",
+									"            },\r",
+									"            function (err, response) {\r",
+									"                if (err) {\r",
+									"                    console.log('ERROR - ', err);\r",
+									"                    reject();\r",
+									"                } else {\r",
+									"                    resolve();\r",
+									"                }\r",
+									"            }\r",
+									"        );\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"Promise.all(addCourse(0, 'Higher Love - The Essential Steve Winwood'));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Expected Response Status', () => {\r",
+									"    pm.expect(pm.response.code).is.equal(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"courseNumber\": 12345,\r\n  \"courseTitle\": \"The Essential Lynyrd Skynyrd\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{courseUrl}}",
+							"host": [
+								"{{courseUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modify an invalid course",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Add a course\r",
+									"addCourse = (id, name) => {\r",
+									"    return new Promise((resolve, reject) => {\r",
+									"        pm.sendRequest(\r",
+									"            {\r",
+									"                url: pm.collectionVariables.get('courseUrl'),\r",
+									"                method: 'POST',\r",
+									"                header: {\r",
+									"                    'Content-Type': 'application/json'\r",
+									"                },\r",
+									"                body: {\r",
+									"                    mode: 'raw',\r",
+									"                    raw: {\r",
+									"                        'courseNumber': id,\r",
+									"                        'courseTitle': name\r",
+									"                    }\r",
+									"                }\r",
+									"            },\r",
+									"            function (err, response) {\r",
+									"                if (err) {\r",
+									"                    console.log('ERROR - ', err);\r",
+									"                    reject();\r",
+									"                } else {\r",
+									"                    resolve();\r",
+									"                }\r",
+									"            }\r",
+									"        );\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"Promise.all(addCourse(0, 'Higher Love - The Essential Steve Winwood'));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Expected Response Status', () => {\r",
+									"    pm.response.to.be.badRequest;\r",
+									"});\r",
+									"\r",
+									"pm.test('Expected Response Body', () => {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).is.to.equal('Validation failed for [Course]:\\n\\tfield: [courseNumber] violation: [must not be null]');\r",
+									"    pm.expect(jsonData.time).is.not.empty;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"blah\": 0,\r\n  \"courseTitle\": \"The Essential Lynyrd Skynyrd\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{courseUrl}}",
+							"host": [
+								"{{courseUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a valid course",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Expected Response Status', () => {\r",
+									"    pm.expect(pm.response.code).is.equal(201);\r",
+									"});\r",
+									"\r",
+									"pm.test('Expected Response Body', () => {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).is.to.equal('Created');\r",
+									"    pm.expect(jsonData.time).is.not.empty;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"courseNumber\": 1,\r\n  \"courseTitle\": \"Judge Judy - The Definitive Edition\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{courseUrl}}",
+							"host": [
+								"{{courseUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create an invalid course",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Expected Response Status', () => {\r",
+									"    pm.expect(pm.response.code).is.equal(400);\r",
+									"});\r",
+									"\r",
+									"pm.test('Expected Response Body', () => {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).is.to.equal('Validation failed for [Course]:\\n\\tfield: [courseNumber] violation: [must not be null]');\r",
+									"    pm.expect(jsonData.time).is.not.empty;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"blah\": 1,\r\n  \"courseTitle\": \"Judge Judy - The Definitive Edition\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{courseUrl}}",
+							"host": [
+								"{{courseUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a duplicate course",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Add a course\r",
+									"addCourse = (id, name) => {\r",
+									"    return new Promise((resolve, reject) => {\r",
+									"        pm.sendRequest(\r",
+									"            {\r",
+									"                url: pm.collectionVariables.get('courseUrl'),\r",
+									"                method: 'POST',\r",
+									"                header: {\r",
+									"                    'Content-Type': 'application/json'\r",
+									"                },\r",
+									"                body: {\r",
+									"                    mode: 'raw',\r",
+									"                    raw: {\r",
+									"                        'courseNumber': id,\r",
+									"                        'courseTitle': name\r",
+									"                    }\r",
+									"                }\r",
+									"            },\r",
+									"            function (err, response) {\r",
+									"                if (err) {\r",
+									"                    console.log('ERROR - ', err);\r",
+									"                    reject();\r",
+									"                } else {\r",
+									"                    resolve();\r",
+									"                }\r",
+									"            }\r",
+									"        );\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"Promise.all(addCourse(0, 'Higher Love - The Essential Steve Winwood'));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Expected Response Status', () => {\r",
+									"    pm.expect(pm.response.code).is.equal(304);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"courseNumber\": 0,\r\n  \"courseTitle\": \"Judge Judy - The Definitive Edition\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{courseUrl}}",
+							"host": [
+								"{{courseUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a course by valid id",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set('courseNumber', 0);\r",
+									"\r",
+									"// Add a course\r",
+									"addCourse = (id, name) => {\r",
+									"    return new Promise((resolve, reject) => {\r",
+									"        pm.sendRequest(\r",
+									"            {\r",
+									"                url: pm.collectionVariables.get('courseUrl'),\r",
+									"                method: 'POST',\r",
+									"                header: {\r",
+									"                    'Content-Type': 'application/json'\r",
+									"                },\r",
+									"                body: {\r",
+									"                    mode: 'raw',\r",
+									"                    raw: {\r",
+									"                        'courseNumber': id,\r",
+									"                        'courseTitle': name\r",
+									"                    }\r",
+									"                }\r",
+									"            },\r",
+									"            function (err, response) {\r",
+									"                if (err) {\r",
+									"                    console.log('ERROR - ', err);\r",
+									"                    reject();\r",
+									"                } else {\r",
+									"                    resolve();\r",
+									"                }\r",
+									"            }\r",
+									"        );\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"Promise.all(addCourse(0, 'Higher Love - The Essential Steve Winwood'));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Expected Response Status', () => {\r",
+									"    pm.response.to.be.ok;\r",
+									"});\r",
+									"\r",
+									"pm.test('Expected Response Body', () => {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.courseNumber).is.to.equal(0);\r",
+									"    pm.expect(jsonData.courseTitle).is.to.equal('Higher Love - The Essential Steve Winwood');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{courseUrl}}/{{courseNumber}}",
+							"host": [
+								"{{courseUrl}}"
+							],
+							"path": [
+								"{{courseNumber}}"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a course by invalid id",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set('courseNumber', 12345);\r",
+									"\r",
+									"// Add a course\r",
+									"addCourse = (id, name) => {\r",
+									"    return new Promise((resolve, reject) => {\r",
+									"        pm.sendRequest(\r",
+									"            {\r",
+									"                url: pm.collectionVariables.get('courseUrl'),\r",
+									"                method: 'POST',\r",
+									"                header: {\r",
+									"                    'Content-Type': 'application/json'\r",
+									"                },\r",
+									"                body: {\r",
+									"                    mode: 'raw',\r",
+									"                    raw: {\r",
+									"                        'courseNumber': id,\r",
+									"                        'courseTitle': name\r",
+									"                    }\r",
+									"                }\r",
+									"            },\r",
+									"            function (err, response) {\r",
+									"                if (err) {\r",
+									"                    console.log('ERROR - ', err);\r",
+									"                    reject();\r",
+									"                } else {\r",
+									"                    resolve();\r",
+									"                }\r",
+									"            }\r",
+									"        );\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"Promise.all(addCourse(0, 'Higher Love - The Essential Steve Winwood'));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Expected Response Status', () => {\r",
+									"    pm.response.to.be.ok;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{courseUrl}}/{{courseNumber}}",
+							"host": [
+								"{{courseUrl}}"
+							],
+							"path": [
+								"{{courseNumber}}"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a course by valid id",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set('courseNumber', 0);\r",
+									"\r",
+									"// Add a course\r",
+									"addCourse = (id, name) => {\r",
+									"    return new Promise((resolve, reject) => {\r",
+									"        pm.sendRequest(\r",
+									"            {\r",
+									"                url: pm.collectionVariables.get('courseUrl'),\r",
+									"                method: 'POST',\r",
+									"                header: {\r",
+									"                    'Content-Type': 'application/json'\r",
+									"                },\r",
+									"                body: {\r",
+									"                    mode: 'raw',\r",
+									"                    raw: {\r",
+									"                        'courseNumber': id,\r",
+									"                        'courseTitle': name\r",
+									"                    }\r",
+									"                }\r",
+									"            },\r",
+									"            function (err, response) {\r",
+									"                if (err) {\r",
+									"                    console.log('ERROR - ', err);\r",
+									"                    reject();\r",
+									"                } else {\r",
+									"                    resolve();\r",
+									"                }\r",
+									"            }\r",
+									"        );\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"Promise.all(addCourse(0, 'Higher Love - The Essential Steve Winwood'));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Expected Response Status', () => {\r",
+									"    pm.expect(pm.response.code).is.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('Expected Response Body', () => {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).is.to.equal('OK');\r",
+									"    pm.expect(jsonData.time).is.not.empty;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{courseUrl}}/{{courseNumber}}",
+							"host": [
+								"{{courseUrl}}"
+							],
+							"path": [
+								"{{courseNumber}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a course by invalid id",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set('courseNumber', 12345);\r",
+									"\r",
+									"// Add a course\r",
+									"addCourse = (id, name) => {\r",
+									"    return new Promise((resolve, reject) => {\r",
+									"        pm.sendRequest(\r",
+									"            {\r",
+									"                url: pm.collectionVariables.get('courseUrl'),\r",
+									"                method: 'POST',\r",
+									"                header: {\r",
+									"                    'Content-Type': 'application/json'\r",
+									"                },\r",
+									"                body: {\r",
+									"                    mode: 'raw',\r",
+									"                    raw: {\r",
+									"                        'courseNumber': id,\r",
+									"                        'courseTitle': name\r",
+									"                    }\r",
+									"                }\r",
+									"            },\r",
+									"            function (err, response) {\r",
+									"                if (err) {\r",
+									"                    console.log('ERROR - ', err);\r",
+									"                    reject();\r",
+									"                } else {\r",
+									"                    resolve();\r",
+									"                }\r",
+									"            }\r",
+									"        );\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"Promise.all(addCourse(0, 'Higher Love - The Essential Steve Winwood'));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Expected Response Status', () => {\r",
+									"    pm.expect(pm.response.code).is.equal(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{courseUrl}}/{{courseNumber}}",
+							"host": [
+								"{{courseUrl}}"
+							],
+							"path": [
+								"{{courseNumber}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Registrar",
+			"item": [
+				{
+					"name": "Register a valid student to a valid course",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set('courseNumber', 1);\r",
+									"pm.collectionVariables.set('studentId', 1);\r",
+									"\r",
+									"// Add a course\r",
+									"addCourse = (id, name) => {\r",
+									"    return new Promise((resolve, reject) => {\r",
+									"        pm.sendRequest(\r",
+									"            {\r",
+									"                url: pm.collectionVariables.get('courseUrl'),\r",
+									"                method: 'POST',\r",
+									"                header: {\r",
+									"                    'Content-Type': 'application/json'\r",
+									"                },\r",
+									"                body: {\r",
+									"                    mode: 'raw',\r",
+									"                    raw: {\r",
+									"                        'courseNumber': id,\r",
+									"                        'courseTitle': name\r",
+									"                    }\r",
+									"                }\r",
+									"            },\r",
+									"            function (err, response) {\r",
+									"                if (err) {\r",
+									"                    console.log('ERROR - ', err);\r",
+									"                    reject();\r",
+									"                } else {\r",
+									"                    resolve();\r",
+									"                }\r",
+									"            }\r",
+									"        );\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"// Add a student\r",
+									"addStudent = (id, firstName, lastName, dob, email) => {\r",
+									"    return new Promise((resolve, reject) => {\r",
+									"        pm.sendRequest(\r",
+									"            {\r",
+									"                url: pm.collectionVariables.get('studentUrl'),\r",
+									"                method: 'POST',\r",
+									"                header: {\r",
+									"                    'Content-Type': 'application/json'\r",
+									"                },\r",
+									"                body: {\r",
+									"                    mode: 'raw',\r",
+									"                    raw: {\r",
+									"                        'studentId': id,\r",
+									"                        'firstName': firstName,\r",
+									"                        'lastName': lastName,\r",
+									"                        'dateOfBirth': dob,\r",
+									"                        'email': email\r",
+									"                    }\r",
+									"                }\r",
+									"            },\r",
+									"            function (err, response) {\r",
+									"                if (err) {\r",
+									"                    console.log('ERROR - ', err);\r",
+									"                    reject();\r",
+									"                } else {\r",
+									"                    resolve();\r",
+									"                }\r",
+									"            }\r",
+									"        );\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"Promise.all(addCourse(1, 'Legendary Ballads - From Poison to Queensryche'));\r",
+									"Promise.all(addStudent(1, 'Wayne', 'Brady', '1972-06-02', 'kinkyboots@aol.com'));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Expected Response Status', () => {\r",
+									"    pm.response.to.be.ok;\r",
+									"});\r",
+									"\r",
+									"pm.test('Expected Response Body', () => {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).is.to.equal('OK');\r",
+									"    pm.expect(jsonData.time).is.not.empty;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{registrarUrl}}/{{courseNumber}}/{{studentId}}",
+							"host": [
+								"{{registrarUrl}}"
+							],
+							"path": [
+								"{{courseNumber}}",
+								"{{studentId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register an invalid student to a valid course",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set('courseNumber', 1);\r",
+									"pm.collectionVariables.set('studentId', 12345);\r",
+									"\r",
+									"// Add a course\r",
+									"addCourse = (id, name) => {\r",
+									"    return new Promise((resolve, reject) => {\r",
+									"        pm.sendRequest(\r",
+									"            {\r",
+									"                url: pm.collectionVariables.get('courseUrl'),\r",
+									"                method: 'POST',\r",
+									"                header: {\r",
+									"                    'Content-Type': 'application/json'\r",
+									"                },\r",
+									"                body: {\r",
+									"                    mode: 'raw',\r",
+									"                    raw: {\r",
+									"                        'courseNumber': id,\r",
+									"                        'courseTitle': name\r",
+									"                    }\r",
+									"                }\r",
+									"            },\r",
+									"            function (err, response) {\r",
+									"                if (err) {\r",
+									"                    console.log('ERROR - ', err);\r",
+									"                    reject();\r",
+									"                } else {\r",
+									"                    resolve();\r",
+									"                }\r",
+									"            }\r",
+									"        );\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"// Add a student\r",
+									"addStudent = (id, firstName, lastName, dob, email) => {\r",
+									"    return new Promise((resolve, reject) => {\r",
+									"        pm.sendRequest(\r",
+									"            {\r",
+									"                url: pm.collectionVariables.get('studentUrl'),\r",
+									"                method: 'POST',\r",
+									"                header: {\r",
+									"                    'Content-Type': 'application/json'\r",
+									"                },\r",
+									"                body: {\r",
+									"                    mode: 'raw',\r",
+									"                    raw: {\r",
+									"                        'studentId': id,\r",
+									"                        'firstName': firstName,\r",
+									"                        'lastName': lastName,\r",
+									"                        'dateOfBirth': dob,\r",
+									"                        'email': email\r",
+									"                    }\r",
+									"                }\r",
+									"            },\r",
+									"            function (err, response) {\r",
+									"                if (err) {\r",
+									"                    console.log('ERROR - ', err);\r",
+									"                    reject();\r",
+									"                } else {\r",
+									"                    resolve();\r",
+									"                }\r",
+									"            }\r",
+									"        );\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"Promise.all(addCourse(1, 'Legendary Ballads - From Poison to Queensryche'));\r",
+									"Promise.all(addStudent(1, 'Wayne', 'Brady', '1972-06-02', 'kinkyboots@aol.com'));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Expected Response Status', () => {\r",
+									"    pm.response.to.be.badRequest;\r",
+									"});\r",
+									"\r",
+									"pm.test('Expected Response Body', () => {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).is.to.equal('Bad Request');\r",
+									"    pm.expect(jsonData.time).is.not.empty;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{registrarUrl}}/{{courseNumber}}/{{studentId}}",
+							"host": [
+								"{{registrarUrl}}"
+							],
+							"path": [
+								"{{courseNumber}}",
+								"{{studentId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register an valid student to a invalid course",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set('courseNumber', 12345);\r",
+									"pm.collectionVariables.set('studentId', 1);\r",
+									"\r",
+									"// Add a course\r",
+									"addCourse = (id, name) => {\r",
+									"    return new Promise((resolve, reject) => {\r",
+									"        pm.sendRequest(\r",
+									"            {\r",
+									"                url: pm.collectionVariables.get('courseUrl'),\r",
+									"                method: 'POST',\r",
+									"                header: {\r",
+									"                    'Content-Type': 'application/json'\r",
+									"                },\r",
+									"                body: {\r",
+									"                    mode: 'raw',\r",
+									"                    raw: {\r",
+									"                        'courseNumber': id,\r",
+									"                        'courseTitle': name\r",
+									"                    }\r",
+									"                }\r",
+									"            },\r",
+									"            function (err, response) {\r",
+									"                if (err) {\r",
+									"                    console.log('ERROR - ', err);\r",
+									"                    reject();\r",
+									"                } else {\r",
+									"                    resolve();\r",
+									"                }\r",
+									"            }\r",
+									"        );\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"// Add a student\r",
+									"addStudent = (id, firstName, lastName, dob, email) => {\r",
+									"    return new Promise((resolve, reject) => {\r",
+									"        pm.sendRequest(\r",
+									"            {\r",
+									"                url: pm.collectionVariables.get('studentUrl'),\r",
+									"                method: 'POST',\r",
+									"                header: {\r",
+									"                    'Content-Type': 'application/json'\r",
+									"                },\r",
+									"                body: {\r",
+									"                    mode: 'raw',\r",
+									"                    raw: {\r",
+									"                        'studentId': id,\r",
+									"                        'firstName': firstName,\r",
+									"                        'lastName': lastName,\r",
+									"                        'dateOfBirth': dob,\r",
+									"                        'email': email\r",
+									"                    }\r",
+									"                }\r",
+									"            },\r",
+									"            function (err, response) {\r",
+									"                if (err) {\r",
+									"                    console.log('ERROR - ', err);\r",
+									"                    reject();\r",
+									"                } else {\r",
+									"                    resolve();\r",
+									"                }\r",
+									"            }\r",
+									"        );\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"Promise.all(addCourse(1, 'Legendary Ballads - From Poison to Queensryche'));\r",
+									"Promise.all(addStudent(1, 'Wayne', 'Brady', '1972-06-02', 'kinkyboots@aol.com'));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Expected Response Status', () => {\r",
+									"    pm.response.to.be.badRequest;\r",
+									"});\r",
+									"\r",
+									"pm.test('Expected Response Body', () => {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).is.to.equal('Bad Request');\r",
+									"    pm.expect(jsonData.time).is.not.empty;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{registrarUrl}}/{{courseNumber}}/{{studentId}}",
+							"host": [
+								"{{registrarUrl}}"
+							],
+							"path": [
+								"{{courseNumber}}",
+								"{{studentId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register an invalid student to a invalid course",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set('courseNumber', 12345);\r",
+									"pm.collectionVariables.set('studentId', 12345);\r",
+									"\r",
+									"// Add a course\r",
+									"addCourse = (id, name) => {\r",
+									"    return new Promise((resolve, reject) => {\r",
+									"        pm.sendRequest(\r",
+									"            {\r",
+									"                url: pm.collectionVariables.get('courseUrl'),\r",
+									"                method: 'POST',\r",
+									"                header: {\r",
+									"                    'Content-Type': 'application/json'\r",
+									"                },\r",
+									"                body: {\r",
+									"                    mode: 'raw',\r",
+									"                    raw: {\r",
+									"                        'courseNumber': id,\r",
+									"                        'courseTitle': name\r",
+									"                    }\r",
+									"                }\r",
+									"            },\r",
+									"            function (err, response) {\r",
+									"                if (err) {\r",
+									"                    console.log('ERROR - ', err);\r",
+									"                    reject();\r",
+									"                } else {\r",
+									"                    resolve();\r",
+									"                }\r",
+									"            }\r",
+									"        );\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"// Add a student\r",
+									"addStudent = (id, firstName, lastName, dob, email) => {\r",
+									"    return new Promise((resolve, reject) => {\r",
+									"        pm.sendRequest(\r",
+									"            {\r",
+									"                url: pm.collectionVariables.get('studentUrl'),\r",
+									"                method: 'POST',\r",
+									"                header: {\r",
+									"                    'Content-Type': 'application/json'\r",
+									"                },\r",
+									"                body: {\r",
+									"                    mode: 'raw',\r",
+									"                    raw: {\r",
+									"                        'studentId': id,\r",
+									"                        'firstName': firstName,\r",
+									"                        'lastName': lastName,\r",
+									"                        'dateOfBirth': dob,\r",
+									"                        'email': email\r",
+									"                    }\r",
+									"                }\r",
+									"            },\r",
+									"            function (err, response) {\r",
+									"                if (err) {\r",
+									"                    console.log('ERROR - ', err);\r",
+									"                    reject();\r",
+									"                } else {\r",
+									"                    resolve();\r",
+									"                }\r",
+									"            }\r",
+									"        );\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"Promise.all(addCourse(1, 'Legendary Ballads - From Poison to Queensryche'));\r",
+									"Promise.all(addStudent(1, 'Wayne', 'Brady', '1972-06-02', 'kinkyboots@aol.com'));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Expected Response Status', () => {\r",
+									"    pm.response.to.be.badRequest;\r",
+									"});\r",
+									"\r",
+									"pm.test('Expected Response Body', () => {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).is.to.equal('Bad Request');\r",
+									"    pm.expect(jsonData.time).is.not.empty;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{registrarUrl}}/{{courseNumber}}/{{studentId}}",
+							"host": [
+								"{{registrarUrl}}"
+							],
+							"path": [
+								"{{courseNumber}}",
+								"{{studentId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a valid student from a valid course",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set('courseNumber', 1);\r",
+									"pm.collectionVariables.set('studentId', 1);\r",
+									"\r",
+									"// Add a course\r",
+									"addCourse = (id, name) => {\r",
+									"    return new Promise((resolve, reject) => {\r",
+									"        pm.sendRequest(\r",
+									"            {\r",
+									"                url: pm.collectionVariables.get('courseUrl'),\r",
+									"                method: 'POST',\r",
+									"                header: {\r",
+									"                    'Content-Type': 'application/json'\r",
+									"                },\r",
+									"                body: {\r",
+									"                    mode: 'raw',\r",
+									"                    raw: {\r",
+									"                        'courseNumber': id,\r",
+									"                        'courseTitle': name\r",
+									"                    }\r",
+									"                }\r",
+									"            },\r",
+									"            function (err, response) {\r",
+									"                if (err) {\r",
+									"                    console.log('ERROR - ', err);\r",
+									"                    reject();\r",
+									"                } else {\r",
+									"                    resolve();\r",
+									"                }\r",
+									"            }\r",
+									"        );\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"// Add a student\r",
+									"addStudent = (id, firstName, lastName, dob, email) => {\r",
+									"    return new Promise((resolve, reject) => {\r",
+									"        pm.sendRequest(\r",
+									"            {\r",
+									"                url: pm.collectionVariables.get('studentUrl'),\r",
+									"                method: 'POST',\r",
+									"                header: {\r",
+									"                    'Content-Type': 'application/json'\r",
+									"                },\r",
+									"                body: {\r",
+									"                    mode: 'raw',\r",
+									"                    raw: {\r",
+									"                        'studentId': id,\r",
+									"                        'firstName': firstName,\r",
+									"                        'lastName': lastName,\r",
+									"                        'dateOfBirth': dob,\r",
+									"                        'email': email\r",
+									"                    }\r",
+									"                }\r",
+									"            },\r",
+									"            function (err, response) {\r",
+									"                if (err) {\r",
+									"                    console.log('ERROR - ', err);\r",
+									"                    reject();\r",
+									"                } else {\r",
+									"                    resolve();\r",
+									"                }\r",
+									"            }\r",
+									"        );\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"registerStudentToCourse = (studentId, courseId) => {\r",
+									"    return new Promise((resolve, reject) => {\r",
+									"        pm.sendRequest(\r",
+									"            {\r",
+									"                url: pm.collectionVariables.get('registrarUrl').concat('/').concat(courseId).concat('/').concat(studentId),\r",
+									"                method: 'POST'\r",
+									"            },\r",
+									"            function (err, response) {\r",
+									"                if (err) {\r",
+									"                    console.log('ERROR - ', err);\r",
+									"                    reject();\r",
+									"                } else {\r",
+									"                    resolve();\r",
+									"                }\r",
+									"            }\r",
+									"        );\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"Promise.all(addCourse(1, 'Legendary Ballads - From Poison to Queensryche'));\r",
+									"Promise.all(addStudent(1, 'Wayne', 'Brady', '1972-06-02', 'kinkyboots@aol.com'));\r",
+									"Promise.all(registerStudentToCourse(1, 1));\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Expected Response Status', () => {\r",
+									"    pm.response.to.be.ok;\r",
+									"});\r",
+									"\r",
+									"pm.test('Expected Response Body', () => {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).is.to.equal('OK');\r",
+									"    pm.expect(jsonData.time).is.not.empty;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"studentId\": 0,\r\n  \"firstName\": \"Steve\",\r\n  \"lastName\": \"Winwood\",\r\n  \"dateOfBirth\": \"1912-11-13\",\r\n  \"email\": \"higherlove@hotmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{registrarUrl}}/{{courseNumber}}/{{studentId}}",
+							"host": [
+								"{{registrarUrl}}"
+							],
+							"path": [
+								"{{courseNumber}}",
+								"{{studentId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete an invalid student from a valid course",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set('courseNumber', 1);\r",
+									"pm.collectionVariables.set('studentId', 12345);\r",
+									"\r",
+									"// Add a course\r",
+									"addCourse = (id, name) => {\r",
+									"    return new Promise((resolve, reject) => {\r",
+									"        pm.sendRequest(\r",
+									"            {\r",
+									"                url: pm.collectionVariables.get('courseUrl'),\r",
+									"                method: 'POST',\r",
+									"                header: {\r",
+									"                    'Content-Type': 'application/json'\r",
+									"                },\r",
+									"                body: {\r",
+									"                    mode: 'raw',\r",
+									"                    raw: {\r",
+									"                        'courseNumber': id,\r",
+									"                        'courseTitle': name\r",
+									"                    }\r",
+									"                }\r",
+									"            },\r",
+									"            function (err, response) {\r",
+									"                if (err) {\r",
+									"                    console.log('ERROR - ', err);\r",
+									"                    reject();\r",
+									"                } else {\r",
+									"                    resolve();\r",
+									"                }\r",
+									"            }\r",
+									"        );\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"// Add a student\r",
+									"addStudent = (id, firstName, lastName, dob, email) => {\r",
+									"    return new Promise((resolve, reject) => {\r",
+									"        pm.sendRequest(\r",
+									"            {\r",
+									"                url: pm.collectionVariables.get('studentUrl'),\r",
+									"                method: 'POST',\r",
+									"                header: {\r",
+									"                    'Content-Type': 'application/json'\r",
+									"                },\r",
+									"                body: {\r",
+									"                    mode: 'raw',\r",
+									"                    raw: {\r",
+									"                        'studentId': id,\r",
+									"                        'firstName': firstName,\r",
+									"                        'lastName': lastName,\r",
+									"                        'dateOfBirth': dob,\r",
+									"                        'email': email\r",
+									"                    }\r",
+									"                }\r",
+									"            },\r",
+									"            function (err, response) {\r",
+									"                if (err) {\r",
+									"                    console.log('ERROR - ', err);\r",
+									"                    reject();\r",
+									"                } else {\r",
+									"                    resolve();\r",
+									"                }\r",
+									"            }\r",
+									"        );\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"registerStudentToCourse = (studentId, courseId) => {\r",
+									"    return new Promise((resolve, reject) => {\r",
+									"        pm.sendRequest(\r",
+									"            {\r",
+									"                url: pm.collectionVariables.get('registrarUrl').concat('/').concat(courseId).concat('/').concat(studentId),\r",
+									"                method: 'POST'\r",
+									"            },\r",
+									"            function (err, response) {\r",
+									"                if (err) {\r",
+									"                    console.log('ERROR - ', err);\r",
+									"                    reject();\r",
+									"                } else {\r",
+									"                    resolve();\r",
+									"                }\r",
+									"            }\r",
+									"        );\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"Promise.all(addCourse(1, 'Legendary Ballads - From Poison to Queensryche'));\r",
+									"Promise.all(addStudent(1, 'Wayne', 'Brady', '1972-06-02', 'kinkyboots@aol.com'));\r",
+									"Promise.all(registerStudentToCourse(1, 1));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Expected Response Status', () => {\r",
+									"    pm.response.to.be.badRequest;\r",
+									"});\r",
+									"\r",
+									"pm.test('Expected Response Body', () => {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).is.to.equal('Bad Request');\r",
+									"    pm.expect(jsonData.time).is.not.empty;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"studentId\": 0,\r\n  \"firstName\": \"Steve\",\r\n  \"lastName\": \"Winwood\",\r\n  \"dateOfBirth\": \"1912-11-13\",\r\n  \"email\": \"higherlove@hotmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{registrarUrl}}/{{courseNumber}}/{{studentId}}",
+							"host": [
+								"{{registrarUrl}}"
+							],
+							"path": [
+								"{{courseNumber}}",
+								"{{studentId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a valid student from an invalid course",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set('courseNumber', 12345);\r",
+									"pm.collectionVariables.set('studentId', 1);\r",
+									"\r",
+									"// Add a course\r",
+									"addCourse = (id, name) => {\r",
+									"    return new Promise((resolve, reject) => {\r",
+									"        pm.sendRequest(\r",
+									"            {\r",
+									"                url: pm.collectionVariables.get('courseUrl'),\r",
+									"                method: 'POST',\r",
+									"                header: {\r",
+									"                    'Content-Type': 'application/json'\r",
+									"                },\r",
+									"                body: {\r",
+									"                    mode: 'raw',\r",
+									"                    raw: {\r",
+									"                        'courseNumber': id,\r",
+									"                        'courseTitle': name\r",
+									"                    }\r",
+									"                }\r",
+									"            },\r",
+									"            function (err, response) {\r",
+									"                if (err) {\r",
+									"                    console.log('ERROR - ', err);\r",
+									"                    reject();\r",
+									"                } else {\r",
+									"                    resolve();\r",
+									"                }\r",
+									"            }\r",
+									"        );\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"// Add a student\r",
+									"addStudent = (id, firstName, lastName, dob, email) => {\r",
+									"    return new Promise((resolve, reject) => {\r",
+									"        pm.sendRequest(\r",
+									"            {\r",
+									"                url: pm.collectionVariables.get('studentUrl'),\r",
+									"                method: 'POST',\r",
+									"                header: {\r",
+									"                    'Content-Type': 'application/json'\r",
+									"                },\r",
+									"                body: {\r",
+									"                    mode: 'raw',\r",
+									"                    raw: {\r",
+									"                        'studentId': id,\r",
+									"                        'firstName': firstName,\r",
+									"                        'lastName': lastName,\r",
+									"                        'dateOfBirth': dob,\r",
+									"                        'email': email\r",
+									"                    }\r",
+									"                }\r",
+									"            },\r",
+									"            function (err, response) {\r",
+									"                if (err) {\r",
+									"                    console.log('ERROR - ', err);\r",
+									"                    reject();\r",
+									"                } else {\r",
+									"                    resolve();\r",
+									"                }\r",
+									"            }\r",
+									"        );\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"registerStudentToCourse = (studentId, courseId) => {\r",
+									"    return new Promise((resolve, reject) => {\r",
+									"        pm.sendRequest(\r",
+									"            {\r",
+									"                url: pm.collectionVariables.get('registrarUrl').concat('/').concat(courseId).concat('/').concat(studentId),\r",
+									"                method: 'POST'\r",
+									"            },\r",
+									"            function (err, response) {\r",
+									"                if (err) {\r",
+									"                    console.log('ERROR - ', err);\r",
+									"                    reject();\r",
+									"                } else {\r",
+									"                    resolve();\r",
+									"                }\r",
+									"            }\r",
+									"        );\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"Promise.all(addCourse(1, 'Legendary Ballads - From Poison to Queensryche'));\r",
+									"Promise.all(addStudent(1, 'Wayne', 'Brady', '1972-06-02', 'kinkyboots@aol.com'));\r",
+									"Promise.all(registerStudentToCourse(1, 1));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Expected Response Status', () => {\r",
+									"    pm.response.to.be.badRequest;\r",
+									"});\r",
+									"\r",
+									"pm.test('Expected Response Body', () => {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).is.to.equal('Bad Request');\r",
+									"    pm.expect(jsonData.time).is.not.empty;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"studentId\": 0,\r\n  \"firstName\": \"Steve\",\r\n  \"lastName\": \"Winwood\",\r\n  \"dateOfBirth\": \"1912-11-13\",\r\n  \"email\": \"higherlove@hotmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{registrarUrl}}/{{courseNumber}}/{{studentId}}",
+							"host": [
+								"{{registrarUrl}}"
+							],
+							"path": [
+								"{{courseNumber}}",
+								"{{studentId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a invalid student from a invalid course",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set('courseNumber', 12345);\r",
+									"pm.collectionVariables.set('studentId', 12345);\r",
+									"\r",
+									"// Add a course\r",
+									"addCourse = (id, name) => {\r",
+									"    return new Promise((resolve, reject) => {\r",
+									"        pm.sendRequest(\r",
+									"            {\r",
+									"                url: pm.collectionVariables.get('courseUrl'),\r",
+									"                method: 'POST',\r",
+									"                header: {\r",
+									"                    'Content-Type': 'application/json'\r",
+									"                },\r",
+									"                body: {\r",
+									"                    mode: 'raw',\r",
+									"                    raw: {\r",
+									"                        'courseNumber': id,\r",
+									"                        'courseTitle': name\r",
+									"                    }\r",
+									"                }\r",
+									"            },\r",
+									"            function (err, response) {\r",
+									"                if (err) {\r",
+									"                    console.log('ERROR - ', err);\r",
+									"                    reject();\r",
+									"                } else {\r",
+									"                    resolve();\r",
+									"                }\r",
+									"            }\r",
+									"        );\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"// Add a student\r",
+									"addStudent = (id, firstName, lastName, dob, email) => {\r",
+									"    return new Promise((resolve, reject) => {\r",
+									"        pm.sendRequest(\r",
+									"            {\r",
+									"                url: pm.collectionVariables.get('studentUrl'),\r",
+									"                method: 'POST',\r",
+									"                header: {\r",
+									"                    'Content-Type': 'application/json'\r",
+									"                },\r",
+									"                body: {\r",
+									"                    mode: 'raw',\r",
+									"                    raw: {\r",
+									"                        'studentId': id,\r",
+									"                        'firstName': firstName,\r",
+									"                        'lastName': lastName,\r",
+									"                        'dateOfBirth': dob,\r",
+									"                        'email': email\r",
+									"                    }\r",
+									"                }\r",
+									"            },\r",
+									"            function (err, response) {\r",
+									"                if (err) {\r",
+									"                    console.log('ERROR - ', err);\r",
+									"                    reject();\r",
+									"                } else {\r",
+									"                    resolve();\r",
+									"                }\r",
+									"            }\r",
+									"        );\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"registerStudentToCourse = (studentId, courseId) => {\r",
+									"    return new Promise((resolve, reject) => {\r",
+									"        pm.sendRequest(\r",
+									"            {\r",
+									"                url: pm.collectionVariables.get('registrarUrl').concat('/').concat(courseId).concat('/').concat(studentId),\r",
+									"                method: 'POST'\r",
+									"            },\r",
+									"            function (err, response) {\r",
+									"                if (err) {\r",
+									"                    console.log('ERROR - ', err);\r",
+									"                    reject();\r",
+									"                } else {\r",
+									"                    resolve();\r",
+									"                }\r",
+									"            }\r",
+									"        );\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"Promise.all(addCourse(1, 'Legendary Ballads - From Poison to Queensryche'));\r",
+									"Promise.all(addStudent(1, 'Wayne', 'Brady', '1972-06-02', 'kinkyboots@aol.com'));\r",
+									"Promise.all(registerStudentToCourse(1, 1));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Expected Response Status', () => {\r",
+									"    pm.response.to.be.badRequest;\r",
+									"});\r",
+									"\r",
+									"pm.test('Expected Response Body', () => {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).is.to.equal('Bad Request');\r",
+									"    pm.expect(jsonData.time).is.not.empty;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"studentId\": 0,\r\n  \"firstName\": \"Steve\",\r\n  \"lastName\": \"Winwood\",\r\n  \"dateOfBirth\": \"1912-11-13\",\r\n  \"email\": \"higherlove@hotmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{registrarUrl}}/{{courseNumber}}/{{studentId}}",
+							"host": [
+								"{{registrarUrl}}"
+							],
+							"path": [
+								"{{courseNumber}}",
+								"{{studentId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get the list of registered students by valid course",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set('courseNumber', 2);\r",
+									"\r",
+									"// Add a course\r",
+									"addCourse = (id, name) => {\r",
+									"    return new Promise((resolve, reject) => {\r",
+									"        pm.sendRequest(\r",
+									"            {\r",
+									"                url: pm.collectionVariables.get('courseUrl'),\r",
+									"                method: 'POST',\r",
+									"                header: {\r",
+									"                    'Content-Type': 'application/json'\r",
+									"                },\r",
+									"                body: {\r",
+									"                    mode: 'raw',\r",
+									"                    raw: {\r",
+									"                        'courseNumber': id,\r",
+									"                        'courseTitle': name\r",
+									"                    }\r",
+									"                }\r",
+									"            },\r",
+									"            function (err, response) {\r",
+									"                if (err) {\r",
+									"                    console.log('ERROR - ', err);\r",
+									"                    reject();\r",
+									"                } else {\r",
+									"                    resolve();\r",
+									"                }\r",
+									"            }\r",
+									"        );\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"// Add a student\r",
+									"addStudent = (id, firstName, lastName, dob, email) => {\r",
+									"    return new Promise((resolve, reject) => {\r",
+									"        pm.sendRequest(\r",
+									"            {\r",
+									"                url: pm.collectionVariables.get('studentUrl'),\r",
+									"                method: 'POST',\r",
+									"                header: {\r",
+									"                    'Content-Type': 'application/json'\r",
+									"                },\r",
+									"                body: {\r",
+									"                    mode: 'raw',\r",
+									"                    raw: {\r",
+									"                        'studentId': id,\r",
+									"                        'firstName': firstName,\r",
+									"                        'lastName': lastName,\r",
+									"                        'dateOfBirth': dob,\r",
+									"                        'email': email\r",
+									"                    }\r",
+									"                }\r",
+									"            },\r",
+									"            function (err, response) {\r",
+									"                if (err) {\r",
+									"                    console.log('ERROR - ', err);\r",
+									"                    reject();\r",
+									"                } else {\r",
+									"                    resolve();\r",
+									"                }\r",
+									"            }\r",
+									"        );\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"registerStudentToCourse = (studentId, courseId) => {\r",
+									"    return new Promise((resolve, reject) => {\r",
+									"        pm.sendRequest(\r",
+									"            {\r",
+									"                url: pm.collectionVariables.get('registrarUrl').concat('/').concat(courseId).concat('/').concat(studentId),\r",
+									"                method: 'POST'\r",
+									"            },\r",
+									"            function (err, response) {\r",
+									"                if (err) {\r",
+									"                    console.log('ERROR - ', err);\r",
+									"                    reject();\r",
+									"                } else {\r",
+									"                    resolve();\r",
+									"                }\r",
+									"            }\r",
+									"        );\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"Promise.all(addCourse(2, 'Legendary Ballads - From Poison to Queensryche'));\r",
+									"Promise.all(addStudent(2, 'Wayne', 'Brady', '1972-06-02', 'kinkyboots@aol.com'));\r",
+									"Promise.all(registerStudentToCourse(2, 2));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Expected Response Status', () => {\r",
+									"    pm.response.to.be.ok;\r",
+									"});\r",
+									"\r",
+									"pm.test('Expected Response Body', () => {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.length).is.to.equal(1);\r",
+									"    var jsonStudent = jsonData[0];\r",
+									"    pm.expect(jsonStudent.studentId).is.to.equal(2);\r",
+									"    pm.expect(jsonStudent.firstName).is.to.equal('Wayne');\r",
+									"    pm.expect(jsonStudent.lastName).is.to.equal('Brady');\r",
+									"    pm.expect(jsonStudent.dateOfBirth).is.to.equal('1972-06-02');\r",
+									"    pm.expect(jsonStudent.email).is.to.equal('kinkyboots@aol.com');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{registrarUrl}}/{{courseNumber}}",
+							"host": [
+								"{{registrarUrl}}"
+							],
+							"path": [
+								"{{courseNumber}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get the list of registered students by invalid course",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set('courseNumber', 12345);\r",
+									"\r",
+									"// Add a course\r",
+									"addCourse = (id, name) => {\r",
+									"    return new Promise((resolve, reject) => {\r",
+									"        pm.sendRequest(\r",
+									"            {\r",
+									"                url: pm.collectionVariables.get('courseUrl'),\r",
+									"                method: 'POST',\r",
+									"                header: {\r",
+									"                    'Content-Type': 'application/json'\r",
+									"                },\r",
+									"                body: {\r",
+									"                    mode: 'raw',\r",
+									"                    raw: {\r",
+									"                        'courseNumber': id,\r",
+									"                        'courseTitle': name\r",
+									"                    }\r",
+									"                }\r",
+									"            },\r",
+									"            function (err, response) {\r",
+									"                if (err) {\r",
+									"                    console.log('ERROR - ', err);\r",
+									"                    reject();\r",
+									"                } else {\r",
+									"                    resolve();\r",
+									"                }\r",
+									"            }\r",
+									"        );\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"// Add a student\r",
+									"addStudent = (id, firstName, lastName, dob, email) => {\r",
+									"    return new Promise((resolve, reject) => {\r",
+									"        pm.sendRequest(\r",
+									"            {\r",
+									"                url: pm.collectionVariables.get('studentUrl'),\r",
+									"                method: 'POST',\r",
+									"                header: {\r",
+									"                    'Content-Type': 'application/json'\r",
+									"                },\r",
+									"                body: {\r",
+									"                    mode: 'raw',\r",
+									"                    raw: {\r",
+									"                        'studentId': id,\r",
+									"                        'firstName': firstName,\r",
+									"                        'lastName': lastName,\r",
+									"                        'dateOfBirth': dob,\r",
+									"                        'email': email\r",
+									"                    }\r",
+									"                }\r",
+									"            },\r",
+									"            function (err, response) {\r",
+									"                if (err) {\r",
+									"                    console.log('ERROR - ', err);\r",
+									"                    reject();\r",
+									"                } else {\r",
+									"                    resolve();\r",
+									"                }\r",
+									"            }\r",
+									"        );\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"registerStudentToCourse = (studentId, courseId) => {\r",
+									"    return new Promise((resolve, reject) => {\r",
+									"        pm.sendRequest(\r",
+									"            {\r",
+									"                url: pm.collectionVariables.get('registrarUrl').concat('/').concat(courseId).concat('/').concat(studentId),\r",
+									"                method: 'POST'\r",
+									"            },\r",
+									"            function (err, response) {\r",
+									"                if (err) {\r",
+									"                    console.log('ERROR - ', err);\r",
+									"                    reject();\r",
+									"                } else {\r",
+									"                    resolve();\r",
+									"                }\r",
+									"            }\r",
+									"        );\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"Promise.all(addCourse(1, 'Legendary Ballads - From Poison to Queensryche'));\r",
+									"Promise.all(addStudent(1, 'Wayne', 'Brady', '1972-06-02', 'kinkyboots@aol.com'));\r",
+									"Promise.all(registerStudentToCourse(1, 1));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Expected Response Status', () => {\r",
+									"    pm.response.to.be.badRequest;\r",
+									"});\r",
+									"\r",
+									"pm.test('Expected Response Body', () => {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).is.to.equal('Invalid course');\r",
+									"    pm.expect(jsonData.time).is.not.empty;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{registrarUrl}}/{{courseNumber}}",
+							"host": [
+								"{{registrarUrl}}"
+							],
+							"path": [
+								"{{courseNumber}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.collectionVariables.set('baseUrl', 'https://en605789.herokuapp.com/');",
+					"pm.collectionVariables.set('studentUrl', pm.collectionVariables.get('baseUrl').concat('student'));",
+					"pm.collectionVariables.set('courseUrl', pm.collectionVariables.get('baseUrl').concat('course'));",
+					"pm.collectionVariables.set('registrarUrl', pm.collectionVariables.get('baseUrl').concat('registrar'));",
+					"",
+					"deleteItem = (url, id) => {",
+					"    return new Promise((resolve, reject) => {",
+					"        pm.sendRequest(",
+					"            {",
+					"                url: pm.collectionVariables.get(url).concat('/').concat(id),",
+					"                method: 'DELETE'",
+					"            },",
+					"            function (err, response) {",
+					"                if (err) {",
+					"                    console.log('ERROR - ', err);",
+					"                    reject();",
+					"                } else {",
+					"                    resolve();",
+					"                }",
+					"            }",
+					"        );",
+					"    });",
+					"}",
+					"",
+					"lazyDeleteRegistrar = (url, courseId) => {",
+					"    return new Promise((resolve, reject) => {",
+					"        pm.sendRequest(",
+					"            {",
+					"                url: pm.collectionVariables.get(url).concat('/').concat(courseId),",
+					"                method: 'GET'",
+					"            },",
+					"            function (err, response) {",
+					"                if (err) {",
+					"                    console.log('ERROR - ', err);",
+					"                    reject();",
+					"                } else {",
+					"                    resolve();",
+					"                }",
+					"            }",
+					"        );",
+					"    });",
+					"}",
+					"",
+					"//Delete all students",
+					"deleteAllStudents = () => {",
+					"    return new Promise((resolve, reject) => {",
+					"        pm.sendRequest(",
+					"            {",
+					"                url: pm.collectionVariables.get('studentUrl'),",
+					"                method: 'GET'",
+					"            },",
+					"            function (err, response) {",
+					"                if (err) {",
+					"                    console.log('ERROR - ', err);",
+					"                    reject();",
+					"                } else {",
+					"                    const jsonResponse = response.json();",
+					"                    let promises = [];",
+					"                    for (const student of jsonResponse) {",
+					"                        promises.push(deleteItem('studentUrl', student.studentId));",
+					"                    }",
+					"                    Promise.all(promises)",
+					"                    .then(() => resolve())",
+					"                    .catch(() => reject());",
+					"                }",
+					"            }",
+					"        );",
+					"    });",
+					"}",
+					"",
+					"deleteAllCourses = () => {",
+					"    return new Promise((resolve, reject) => {",
+					"        pm.sendRequest(",
+					"            {",
+					"                url: pm.collectionVariables.get('courseUrl'),",
+					"                method: 'GET'",
+					"            },",
+					"            function (err, response) {",
+					"                if (err) {",
+					"                    console.log('ERROR - ', err);",
+					"                    reject();",
+					"                } else {",
+					"                    const jsonResponse = response.json();",
+					"                    let promises = [];",
+					"                    for (const course of jsonResponse) {",
+					"                        promises.push(deleteItem('courseUrl', course.courseNumber));",
+					"                        promises.push(lazyDeleteRegistrar('registrarUrl', course.courseNumber));",
+					"                    }",
+					"                    Promise.all(promises)",
+					"                    .then(() => resolve())",
+					"                    .catch(() => reject());",
+					"                }",
+					"            }",
+					"        );",
+					"    });",
+					"}",
+					"",
+					"Promise.all(deleteAllStudents());",
+					"Promise.all(deleteAllCourses());"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": ""
+		},
+		{
+			"key": "studentUrl",
+			"value": ""
+		},
+		{
+			"key": "courseUrl",
+			"value": ""
+		},
+		{
+			"key": "registrarUrl",
+			"value": ""
+		},
+		{
+			"key": "studentId",
+			"value": ""
+		},
+		{
+			"key": "courseNumber",
+			"value": ""
+		}
+	]
+}

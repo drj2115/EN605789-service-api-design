@@ -1,0 +1,579 @@
+{
+	"info": {
+		"_postman_id": "7c610001-3d75-46e9-ab4b-82772bdaf4b5",
+		"name": "DJ - Collection 1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Students",
+			"item": [
+				{
+					"name": "Get all students",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{studentUrl}}",
+							"host": [
+								"{{studentUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modify a student",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"studentId\": 1,\r\n  \"firstName\": \"Lynyrd\",\r\n  \"lastName\": \"Skynyrd\",\r\n  \"dateOfBirth\": \"1970-01-01\",\r\n  \"email\": \"this is not an email\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{studentUrl}}",
+							"host": [
+								"{{studentUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a student",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"studentId\": 1,\r\n  \"firstName\": \"Steve\",\r\n  \"lastName\": \"Winwood\",\r\n  \"dateOfBirth\": \"1945-300-12\",\r\n  \"email\": \"higherlove@hotmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{studentUrl}}",
+							"host": [
+								"{{studentUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a student by id",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set('studentId', 12345);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{studentUrl}}/{{studentId}}",
+							"host": [
+								"{{studentUrl}}"
+							],
+							"path": [
+								"{{studentId}}"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a student by id",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set('studentId', 12345);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{studentUrl}}/{{studentId}}",
+							"host": [
+								"{{studentUrl}}"
+							],
+							"path": [
+								"{{studentId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Courses",
+			"item": [
+				{
+					"name": "Get all courses",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{courseUrl}}",
+							"host": [
+								"{{courseUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modify a course",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"courseNumber\": 0,\r\n  \"courseTitle\": \"The Essential Lynyrd Skynyrd\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{courseUrl}}",
+							"host": [
+								"{{courseUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a course",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"courseNumber\": 1,\r\n  \"courseTitle\": \"Judge Judy - The Definitive Edition\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{courseUrl}}",
+							"host": [
+								"{{courseUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a course by id",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{courseUrl}}/{{courseNumber}}",
+							"host": [
+								"{{courseUrl}}"
+							],
+							"path": [
+								"{{courseNumber}}"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a course by id",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{courseUrl}}/{{courseNumber}}",
+							"host": [
+								"{{courseUrl}}"
+							],
+							"path": [
+								"{{courseNumber}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Registrar",
+			"item": [
+				{
+					"name": "Register a student to a course",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{registrarUrl}}/{{courseNumber}}/{{studentId}}",
+							"host": [
+								"{{registrarUrl}}"
+							],
+							"path": [
+								"{{courseNumber}}",
+								"{{studentId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a student from a course",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"studentId\": 0,\r\n  \"firstName\": \"Steve\",\r\n  \"lastName\": \"Winwood\",\r\n  \"dateOfBirth\": \"1912-11-13\",\r\n  \"email\": \"higherlove@hotmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{registrarUrl}}/{{courseNumber}}/{{studentId}}",
+							"host": [
+								"{{registrarUrl}}"
+							],
+							"path": [
+								"{{courseNumber}}",
+								"{{studentId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get the list of registered students by course",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{registrarUrl}}",
+							"host": [
+								"{{registrarUrl}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.collectionVariables.set('baseUrl', 'https://en605789.herokuapp.com/');",
+					"pm.collectionVariables.set('studentUrl', pm.collectionVariables.get('baseUrl').concat('student'));",
+					"pm.collectionVariables.set('courseUrl', pm.collectionVariables.get('baseUrl').concat('course'));",
+					"pm.collectionVariables.set('registrarUrl', pm.collectionVariables.get('baseUrl').concat('registrar'));",
+					"",
+					"deleteItem = (url, id) => {",
+					"    return new Promise((resolve, reject) => {",
+					"        pm.sendRequest(",
+					"            {",
+					"                url: pm.collectionVariables.get(url).concat('/').concat(id),",
+					"                method: 'DELETE'",
+					"            },",
+					"            function (err, response) {",
+					"                if (err) {",
+					"                    console.log('ERROR - ', err);",
+					"                    reject();",
+					"                } else {",
+					"                    resolve();",
+					"                }",
+					"            }",
+					"        );",
+					"    });",
+					"}",
+					"",
+					"lazyDeleteRegistrar = (url, courseId) => {",
+					"    return new Promise((resolve, reject) => {",
+					"        pm.sendRequest(",
+					"            {",
+					"                url: pm.collectionVariables.get(url).concat('/').concat(courseId),",
+					"                method: 'GET'",
+					"            },",
+					"            function (err, response) {",
+					"                if (err) {",
+					"                    console.log('ERROR - ', err);",
+					"                    reject();",
+					"                } else {",
+					"                    resolve();",
+					"                }",
+					"            }",
+					"        );",
+					"    });",
+					"}",
+					"",
+					"//Delete all students",
+					"deleteAllStudents = () => {",
+					"    return new Promise((resolve, reject) => {",
+					"        pm.sendRequest(",
+					"            {",
+					"                url: pm.collectionVariables.get('studentUrl'),",
+					"                method: 'GET'",
+					"            },",
+					"            function (err, response) {",
+					"                if (err) {",
+					"                    console.log('ERROR - ', err);",
+					"                    reject();",
+					"                } else {",
+					"                    const jsonResponse = response.json();",
+					"                    let promises = [];",
+					"                    for (const student of jsonResponse) {",
+					"                        promises.push(deleteItem('studentUrl', student.studentId));",
+					"                    }",
+					"                    Promise.all(promises)",
+					"                    .then(() => resolve())",
+					"                    .catch(() => reject());",
+					"                }",
+					"            }",
+					"        );",
+					"    });",
+					"}",
+					"",
+					"deleteAllCourses = () => {",
+					"    return new Promise((resolve, reject) => {",
+					"        pm.sendRequest(",
+					"            {",
+					"                url: pm.collectionVariables.get('courseUrl'),",
+					"                method: 'GET'",
+					"            },",
+					"            function (err, response) {",
+					"                if (err) {",
+					"                    console.log('ERROR - ', err);",
+					"                    reject();",
+					"                } else {",
+					"                    const jsonResponse = response.json();",
+					"                    let promises = [];",
+					"                    for (const course of jsonResponse) {",
+					"                        promises.push(deleteItem('courseUrl', course.courseNumber));",
+					"                        promises.push(lazyDeleteRegistrar('registrarUrl', course.courseNumber));",
+					"                    }",
+					"                    Promise.all(promises)",
+					"                    .then(() => resolve())",
+					"                    .catch(() => reject());",
+					"                }",
+					"            }",
+					"        );",
+					"    });",
+					"}",
+					"",
+					"Promise.all(deleteAllStudents());",
+					"Promise.all(deleteAllCourses());"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": ""
+		},
+		{
+			"key": "studentUrl",
+			"value": ""
+		},
+		{
+			"key": "courseUrl",
+			"value": ""
+		},
+		{
+			"key": "registrarUrl",
+			"value": ""
+		},
+		{
+			"key": "studentId",
+			"value": ""
+		},
+		{
+			"key": "courseNumber",
+			"value": ""
+		}
+	]
+}
