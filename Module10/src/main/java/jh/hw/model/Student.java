@@ -1,5 +1,6 @@
 package jh.hw.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotBlank;
@@ -27,6 +28,12 @@ public class Student {
     @NotBlank
     @Pattern(regexp = "[A-Za-z0-9]+@[A-Za-z0-9]+\\.[A-Za-z0-9]+")
     private String email;
+
+    @JsonIgnore
+    private String password;
+
+    @JsonIgnore
+    private String token;
 
     public Student() {
     }
@@ -77,6 +84,22 @@ public class Student {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     @Override
