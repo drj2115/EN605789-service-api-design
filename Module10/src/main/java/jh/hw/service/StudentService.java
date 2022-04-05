@@ -6,6 +6,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jh.hw.model.JsonResponse;
 import jh.hw.model.Student;
+import jh.hw.utils.StudentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,14 +15,14 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping(value = "student", produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "Students", description = "The Student API")
 public class StudentService {
-    static final Map<Integer, Student> STUDENT_MAP = new HashMap<>();
+
+    @Autowired
+    StudentRepository studentRepository;
 
     @GetMapping("{id}")
     @Operation(summary = "Get a student")
@@ -28,7 +30,7 @@ public class StudentService {
         @ApiResponse(responseCode = "200", description = "successful request")
     })
     public ResponseEntity<Student> getStudentById(@PathVariable(value = "id") Integer id) {
-        return ResponseEntity.ok(STUDENT_MAP.get(id));
+        return ResponseEntity.ok(studentRepository.findById(id).orElse(null));
     }
 
     @GetMapping
@@ -37,7 +39,7 @@ public class StudentService {
         @ApiResponse(responseCode = "200", description = "successful request")
     })
     public ResponseEntity<Collection<Student>> getAllStudents() {
-        return ResponseEntity.ok(STUDENT_MAP.values());
+        return ResponseEntity.ok(studentRepository.findAllBy());
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -48,10 +50,10 @@ public class StudentService {
         @ApiResponse(responseCode = "304", description = "not modified - the student already exists")
     })
     public ResponseEntity<JsonResponse> createStudent(@RequestBody @Valid Student student) {
-        if (STUDENT_MAP.containsKey(student.getStudentId())) {
+        if (studentRepository.existsById(student.getStudentId())) {
             return JsonResponse.buildResponse(HttpStatus.NOT_MODIFIED);
         }
-        STUDENT_MAP.put(student.getStudentId(), student);
+        studentRepository.save(student);
         return JsonResponse.buildResponse(HttpStatus.CREATED);
     }
 
@@ -63,10 +65,10 @@ public class StudentService {
         @ApiResponse(responseCode = "204", description = "no content - the student does not exist")
     })
     public ResponseEntity<JsonResponse> updateStudent(@RequestBody @Valid Student student) {
-        if (!STUDENT_MAP.containsKey(student.getStudentId())) {
+        if (!studentRepository.existsById(student.getStudentId())) {
             return JsonResponse.buildResponse(HttpStatus.NO_CONTENT);
         }
-        STUDENT_MAP.put(student.getStudentId(), student);
+        studentRepository.save(student);
         return JsonResponse.buildResponse(HttpStatus.OK);
     }
 
@@ -77,9 +79,10 @@ public class StudentService {
         @ApiResponse(responseCode = "204", description = "no content - the student does not exist")
     })
     public ResponseEntity<JsonResponse> deleteStudent(@PathVariable(value = "id") Integer id) {
-        if (STUDENT_MAP.remove(id) == null) {
+        if (!studentRepository.existsById(id)) {
             return JsonResponse.buildResponse(HttpStatus.NOT_FOUND);
         }
+        studentRepository.deleteById(id);
         return JsonResponse.buildResponse(HttpStatus.OK);
     }
 }

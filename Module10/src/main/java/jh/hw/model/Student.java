@@ -3,16 +3,20 @@ package jh.hw.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 import java.util.Objects;
 
+@Entity
 public class Student {
 
     private static final String DATE_TIME_FORMAT = "yyyy-MM-dd";
 
+    @Id
     @NotNull
     private Integer studentId;
 
@@ -28,6 +32,8 @@ public class Student {
     @NotBlank
     @Pattern(regexp = "[A-Za-z0-9]+@[A-Za-z0-9]+\\.[A-Za-z0-9]+")
     private String email;
+
+    private String username;
 
     @JsonIgnore
     private String password;
@@ -84,6 +90,14 @@ public class Student {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {

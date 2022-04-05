@@ -1,6 +1,8 @@
 package jh.hw.service;
 
 import jh.hw.model.Student;
+import jh.hw.utils.StudentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,21 +15,13 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 @RestController
 public class UserService {
 
-    public static final Map<String, Student> USER_DB = Collections.synchronizedMap(new HashMap<>());
-
-    static {
-        Student student = new Student(1, "Dallas", "Texas", LocalDate.of(1990, Month.JANUARY, 1), "a@b");
-        student.setPassword("mypassword");
-        USER_DB.put("dtex1", student);
-    }
+    @Autowired
+    StudentRepository studentRepository;
 
     @Value("${security.auth.tokenName:JHUTOKEN}")
     private String authTokenName;
@@ -43,15 +37,35 @@ public class UserService {
     public ResponseEntity<String> postLogin(@RequestParam(value = "username") String username,
                                         @RequestParam(value = "password") String password,
                                         HttpServletResponse response) {
-        Student student = USER_DB.get(username);
+        insertDefaultValues();
+        Student student = studentRepository.findStudentByUsername(username);
         if (student == null || !password.equals(student.getPassword())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         String tokenName = authTokenName;
         String tokenValue = UUID.randomUUID().toString();
         student.setToken(tokenValue);
-        USER_DB.put(username, student);
+        try {
+            studentRepository.save(student);
+        } catch (Exception e) {
+            System.out.println("ERROR - " + e.getMessage());
+            e.printStackTrace();
+        }
         response.addCookie(new Cookie(tokenName, tokenValue));
         return ResponseEntity.status(HttpStatus.OK).header(tokenName, tokenValue).build();
+    }
+
+    private void insertDefaultValues() {
+        if (!studentRepository.existsById(1)) {
+            Student student = new Student(1, "Dallas", "Texas", LocalDate.of(1999, Month.JANUARY, 1), "d@llas.com");
+            student.setUsername("dtex1");
+            student.setPassword("mypassword");
+            try {
+                studentRepository.save(student);
+            } catch (Exception e) {
+                System.out.println("ERROR - " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
     }
 }

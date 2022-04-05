@@ -1,7 +1,7 @@
 package jh.hw.security;
 
 import jh.hw.model.Student;
-import jh.hw.service.UserService;
+import jh.hw.utils.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,13 +12,11 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
-
 @Component
 public class AuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
 
     @Autowired
-    UserService userService;
+    StudentRepository studentRepository;
 
     @Override
     protected void additionalAuthenticationChecks(UserDetails userDetails, UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken) throws AuthenticationException {
@@ -27,12 +25,10 @@ public class AuthenticationProvider extends AbstractUserDetailsAuthenticationPro
     @Override
     protected UserDetails retrieveUser(String userName, UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken) throws AuthenticationException {
         Object token = usernamePasswordAuthenticationToken.getCredentials();
-        for (Map.Entry<String, Student> studentEntry : userService.USER_DB.entrySet()) {
-            Student student = studentEntry.getValue();
-            if (token != null && token.equals(student.getToken())) {
-                return new User(studentEntry.getKey(), student.getPassword(), true, true, true, true, AuthorityUtils.createAuthorityList("USER"));
-            }
+        Student student = studentRepository.findStudentByToken((String)token);
+        if (student == null) {
+            throw new AuthenticationCredentialsNotFoundException("Invalid token - " + token);
         }
-        throw new AuthenticationCredentialsNotFoundException("Invalid token - " + token);
+        return new User(student.getUsername(), student.getPassword(), true, true, true, true, AuthorityUtils.createAuthorityList("USER"));
     }
 }
