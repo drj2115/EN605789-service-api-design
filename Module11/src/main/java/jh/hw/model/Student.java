@@ -3,8 +3,7 @@ package jh.hw.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -33,13 +32,12 @@ public class Student {
     @Pattern(regexp = "[A-Za-z0-9]+@[A-Za-z0-9]+\\.[A-Za-z0-9]+")
     private String email;
 
+    @NotBlank
+    @Column(unique = true)
     private String username;
 
     @JsonIgnore
     private String password;
-
-    @JsonIgnore
-    private String token;
 
     public Student() {
     }
@@ -106,14 +104,6 @@ public class Student {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
     }
 
     @Override

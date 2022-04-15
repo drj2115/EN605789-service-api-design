@@ -24,10 +24,10 @@ public class AuthenticationProvider extends AbstractUserDetailsAuthenticationPro
 
     @Override
     protected UserDetails retrieveUser(String userName, UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken) throws AuthenticationException {
-        Object token = usernamePasswordAuthenticationToken.getCredentials();
-        Student student = studentRepository.findStudentByToken((String)token);
+        Object username = usernamePasswordAuthenticationToken.getCredentials();
+        Student student = studentRepository.findStudentByUsername((String)username);
         if (student == null) {
-            throw new AuthenticationCredentialsNotFoundException("Invalid token - " + token);
+            throw new AuthenticationCredentialsNotFoundException("Invalid username - " + username);
         }
         return new User(student.getUsername(), student.getPassword(), true, true, true, true, AuthorityUtils.createAuthorityList("USER"));
     }

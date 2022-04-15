@@ -22,7 +22,7 @@ import java.util.Arrays;
 public class AuthenticationFilter extends AbstractAuthenticationProcessingFilter {
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationFilter.class);
 
-    private String authTokenName;
+    private final String authTokenName;
 
     public AuthenticationFilter(RequestMatcher requestMatcher, AuthenticationManager authenticationManager, String authTokenName) {
         super(requestMatcher);
@@ -34,10 +34,8 @@ public class AuthenticationFilter extends AbstractAuthenticationProcessingFilter
     public Authentication attemptAuthentication(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws AuthenticationException {
         try {
             String token = getCookieValue(httpServletRequest, authTokenName);
-            LOGGER.info("token = {}", token);
             String user = JWTUtil.validateAndRetrieveSubject(token, "User Details", "user");
-            LOGGER.info("user = {}", user);
-            return getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken(authTokenName, token));
+            return getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken(authTokenName, user));
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             throw new AuthenticationServiceException(e.getMessage());

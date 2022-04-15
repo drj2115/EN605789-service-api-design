@@ -47,7 +47,6 @@ public class UserService {
         }
         String tokenName = authTokenName;
         String tokenValue = JWTUtil.generateToken("User Details", "user", username);
-        student.setToken(tokenValue);
         try {
             studentRepository.save(student);
         } catch (Exception e) {
