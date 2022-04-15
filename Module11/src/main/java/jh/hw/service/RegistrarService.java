@@ -7,6 +7,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jh.hw.model.Course;
 import jh.hw.model.JsonResponse;
 import jh.hw.model.Student;
+import jh.hw.utils.StudentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,9 @@ public class RegistrarService {
     private static final Map<Integer, Set<Student>> COURSE_STUDENT_MAP = new HashMap<>();
     private static final int COURSE_MAX_STUDENTS = 15;
 
+    @Autowired
+    StudentRepository studentRepository;
+
     @PostMapping("{courseNumber}/{studentId}")
     @Operation(summary = "Register a student to a course")
     @ApiResponses({
@@ -33,7 +38,7 @@ public class RegistrarService {
     })
     public ResponseEntity<JsonResponse> registerStudent(@PathVariable("courseNumber") Integer courseNumber,
                                                         @PathVariable("studentId") Integer studentId) {
-        Student student = StudentService.STUDENT_MAP.get(studentId);
+        Student student = studentRepository.findById(studentId).orElse(null);
         Course course = CourseService.COURSE_MAP.get(courseNumber);
         if (student == null || course == null) {
             return JsonResponse.buildResponse(HttpStatus.BAD_REQUEST);
@@ -63,7 +68,7 @@ public class RegistrarService {
         if (studentsInCourse == null || studentsInCourse.isEmpty()) {
             return JsonResponse.buildResponse(HttpStatus.NO_CONTENT);
         }
-        studentsInCourse.removeIf(student -> !StudentService.STUDENT_MAP.containsKey(student.getStudentId()));
+        studentsInCourse.removeIf(student -> !studentRepository.existsById(student.getStudentId()));
 
         return ResponseEntity.ok(studentsInCourse);
     }
@@ -77,7 +82,7 @@ public class RegistrarService {
     })
     public ResponseEntity<JsonResponse> deleteStudentFromCourse(@PathVariable("courseNumber") final Integer courseNumber,
                                                                 @PathVariable("studentId") final Integer studentId) {
-        Student student = StudentService.STUDENT_MAP.get(studentId);
+        Student student = studentRepository.findById(studentId).orElse(null);
         Course course = CourseService.COURSE_MAP.get(courseNumber);
         if (student == null || course == null) {
             return JsonResponse.buildResponse(HttpStatus.BAD_REQUEST);
