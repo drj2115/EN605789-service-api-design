@@ -26,6 +26,9 @@ public class UserService {
     @Autowired
     StudentRepository studentRepository;
 
+    @Autowired
+    JWTUtil jwtUtil;
+
     @Value("${security.auth.tokenName:JHUTOKEN}")
     private String authTokenName;
 
@@ -46,7 +49,7 @@ public class UserService {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         String tokenName = authTokenName;
-        String tokenValue = JWTUtil.generateToken("User Details", "user", username);
+        String tokenValue = jwtUtil.generateToken("User Details", "user", username);
         try {
             studentRepository.save(student);
         } catch (Exception e) {

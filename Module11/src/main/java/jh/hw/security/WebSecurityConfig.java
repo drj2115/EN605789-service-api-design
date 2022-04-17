@@ -23,7 +23,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     AuthenticationProvider authenticationProvider;
 
-    @Value("${security.auth.tokenName:JHUTOKEN}")
+    @Value("${security.auth.tokenName}")
     private String authTokenName;
 
     @Override
@@ -44,7 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling()
                 .and()
                 .authenticationProvider(authenticationProvider)
-                .addFilterBefore(new AuthenticationFilter(PROTECTED_URLS, authenticationManager(), authTokenName), AnonymousAuthenticationFilter.class)
+                .addFilterBefore(new AuthenticationFilter(PROTECTED_URLS, authenticationManager(), authTokenName, getApplicationContext().getBean(JWTUtil.class)), AnonymousAuthenticationFilter.class)
                 .authorizeRequests()
                 .requestMatchers(PROTECTED_URLS)
                 .authenticated()

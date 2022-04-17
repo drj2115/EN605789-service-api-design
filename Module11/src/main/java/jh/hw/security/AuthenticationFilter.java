@@ -24,9 +24,12 @@ public class AuthenticationFilter extends AbstractAuthenticationProcessingFilter
 
     private final String authTokenName;
 
-    public AuthenticationFilter(RequestMatcher requestMatcher, AuthenticationManager authenticationManager, String authTokenName) {
+    private final JWTUtil jwtUtil;
+
+    public AuthenticationFilter(RequestMatcher requestMatcher, AuthenticationManager authenticationManager, String authTokenName, JWTUtil jwtUtil) {
         super(requestMatcher);
         this.authTokenName = authTokenName;
+        this.jwtUtil = jwtUtil;
         setAuthenticationManager(authenticationManager);
     }
 
@@ -34,7 +37,7 @@ public class AuthenticationFilter extends AbstractAuthenticationProcessingFilter
     public Authentication attemptAuthentication(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws AuthenticationException {
         try {
             String token = getCookieValue(httpServletRequest, authTokenName);
-            String user = JWTUtil.validateAndRetrieveSubject(token, "User Details", "user");
+            String user = jwtUtil.validateAndRetrieveSubject(token, "User Details", "user");
             return getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken(authTokenName, user));
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
