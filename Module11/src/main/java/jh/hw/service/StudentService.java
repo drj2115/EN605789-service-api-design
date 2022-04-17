@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jh.hw.model.JsonResponse;
+import jh.hw.model.NewStudent;
 import jh.hw.model.Student;
 import jh.hw.utils.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping(value = "student", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -51,10 +50,15 @@ public class StudentService {
         @ApiResponse(responseCode = "400", description = "bad request - improper student entity"),
         @ApiResponse(responseCode = "304", description = "not modified - the student already exists")
     })
-    public ResponseEntity<JsonResponse> createStudent(@RequestBody @Valid Student student) {
+    public ResponseEntity<JsonResponse> createStudent(@RequestBody @Valid NewStudent newStudent) {
+        Student student = newStudent.getStudent();
         if (studentRepository.existsById(student.getStudentId())) {
             return JsonResponse.buildResponse(HttpStatus.NOT_MODIFIED);
         }
+
+        student.setUsername(newStudent.getUsername());
+        student.setPassword(newStudent.getPassword());
+
         studentRepository.save(student);
         return JsonResponse.buildResponse(HttpStatus.CREATED);
     }
@@ -67,10 +71,17 @@ public class StudentService {
         @ApiResponse(responseCode = "204", description = "no content - the student does not exist")
     })
     public ResponseEntity<JsonResponse> updateStudent(@RequestBody @Valid Student student) {
-        if (!studentRepository.existsById(student.getStudentId())) {
+        Student updateStudent = studentRepository.findById(student.getStudentId()).orElse(null);
+        if (updateStudent == null) {
             return JsonResponse.buildResponse(HttpStatus.NO_CONTENT);
         }
-        studentRepository.save(student);
+
+        updateStudent.setFirstName(student.getFirstName());
+        updateStudent.setLastName(student.getLastName());
+        updateStudent.setEmail(student.getEmail());
+        updateStudent.setDateOfBirth(student.getDateOfBirth());
+
+        studentRepository.save(updateStudent);
         return JsonResponse.buildResponse(HttpStatus.OK);
     }
 
