@@ -12,7 +12,7 @@
     <artifactId>Module10</artifactId>
     <packaging>war</packaging>
 
-    <name>Module8 Maven Webapp</name>
+    <name>Module10 Maven Webapp</name>
 
     <properties>
         <org.springframework-version>4.3.0.RELEASE</org.springframework-version>
