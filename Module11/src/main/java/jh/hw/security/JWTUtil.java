@@ -27,6 +27,16 @@ public class JWTUtil {
     @Value("${security.auth.jwt.issuer}")
     private String issuer;
 
+    @Value("${security.auth.jwt.subject}")
+    private String defaultSubjectName;
+
+    @Value("${security.auth.jwt.claim}")
+    private String defaultClaimName;
+
+    public String generateToken(String claim) {
+        return generateToken(defaultSubjectName, defaultClaimName, claim);
+    }
+
     public String generateToken(String subjectName, String claimName, String claim) {
         return JWT.create()
                 .withSubject(subjectName)
@@ -34,6 +44,10 @@ public class JWTUtil {
                 .withIssuedAt(Date.valueOf(LocalDate.now()))
                 .withIssuer(issuer)
                 .sign(Algorithm.HMAC512(JWT_SECRET));
+    }
+
+    public String validateAndRetrieveSubject(String token) {
+        return validateAndRetrieveSubject(token, defaultSubjectName, defaultClaimName);
     }
 
     public String validateAndRetrieveSubject(String token, String subjectName, String claimName) {

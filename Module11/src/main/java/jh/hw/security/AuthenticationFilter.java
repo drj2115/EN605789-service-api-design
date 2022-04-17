@@ -37,7 +37,7 @@ public class AuthenticationFilter extends AbstractAuthenticationProcessingFilter
     public Authentication attemptAuthentication(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws AuthenticationException {
         try {
             String token = getCookieValue(httpServletRequest, authTokenName);
-            String user = jwtUtil.validateAndRetrieveSubject(token, "User Details", "user");
+            String user = jwtUtil.validateAndRetrieveSubject(token);
             return getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken(authTokenName, user));
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);

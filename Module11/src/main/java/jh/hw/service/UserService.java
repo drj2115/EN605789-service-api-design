@@ -49,7 +49,7 @@ public class UserService {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         String tokenName = authTokenName;
-        String tokenValue = jwtUtil.generateToken("User Details", "user", username);
+        String tokenValue = jwtUtil.generateToken(username);
         try {
             studentRepository.save(student);
         } catch (Exception e) {
