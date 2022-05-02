@@ -10,7 +10,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>Api</artifactId>
-<!--    <packaging>jar</packaging>-->
+    <packaging>jar</packaging>
     <version>${parent.version}</version>
 
     <dependencies>
