@@ -37,41 +37,26 @@ public final class CalculatorSoap_CalculatorSoap_Client {
 
         Calculator ss = new Calculator(wsdlURL, SERVICE_NAME);
         CalculatorSoap port = ss.getCalculatorSoap();
-        int intA = 100;
-        int intB = 10;
-        int expectedResult = intA + intB;
-        int returnedResult = port.add(intA, intB);
-        LOGGER.info("\nTest ADD - {} + {}\n\texpected: {}\n\treturned: {}\n\t{}", intA, intB, expectedResult, returnedResult, expectedResult == returnedResult ? "SUCCESS" : "FAIL");
 
-        {
-            LOGGER.info("Invoking add...");
-            int _add_intA = 10;
-            int _add_intB = 10;
-            int _add__return = port.add(_add_intA, _add_intB);
-            LOGGER.info("add.result=" + _add__return);
-        }
-        {
-            LOGGER.info("Invoking subtract...");
-            int _subtract_intA = 20;
-            int _subtract_intB = 20;
-            int _subtract__return = port.subtract(_subtract_intA, _subtract_intB);
-            LOGGER.info("subtract.result=" + _subtract__return);
-        }
-        {
-            LOGGER.info("Invoking divide...");
-            int _divide_intA = 30;
-            int _divide_intB = 30;
-            int _divide__return = port.divide(_divide_intA, _divide_intB);
-            LOGGER.info("divide.result=" + _divide__return);
-        }
-        {
-            LOGGER.info("Invoking multiply...");
-            int _multiply_intA = 40;
-            int _multiply_intB = 40;
-            int _multiply__return = port.multiply(_multiply_intA, _multiply_intB);
-            LOGGER.info("multiply.result=" + _multiply__return);
-        }
+        int a = 100;
+        int b = 10;
 
+        try {
+            test(String.format("%d + %d", a, b), a + b, port.add(a, b));
+            test(String.format("%d - %d", a, b), a - b, port.subtract(a, b));
+            test(String.format("%d / %d", a, b), a / b, port.divide(a, b));
+            test(String.format("%d * %d", a, b), a * b, port.multiply(a, b));
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+        }
         System.exit(0);
+    }
+
+    private static void test(String testName, int expected, int actual) {
+        if (expected == actual) {
+            LOGGER.info("Test {} SUCCESS!", testName);
+        } else {
+            LOGGER.error("Test {} FAILURE!\n\texpected: {}\n\tactual: {}", testName, expected, actual);
+        }
     }
 }
