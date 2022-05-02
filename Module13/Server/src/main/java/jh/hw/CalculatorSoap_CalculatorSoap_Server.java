@@ -1,5 +1,6 @@
 package jh.hw;
 
+import org.apache.cxf.ext.logging.LoggingFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +18,7 @@ public class CalculatorSoap_CalculatorSoap_Server {
         Object implementor = new CalculatorSoapImpl();
         String address = "http://localhost:8080/Calculator";
         LOGGER.info("Starting Server - {}", address);
-        Endpoint.publish(address, implementor);
+        Endpoint.publish(address, implementor, new LoggingFeature());
     }
 
     public static void main(String args[]) throws java.lang.Exception {
